@@ -6,6 +6,10 @@
 package ui.form;
 
 import controller.Controller;
+import domain.Radnik;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -126,16 +130,18 @@ public class FLogin extends javax.swing.JFrame {
     private void jbtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLoginActionPerformed
         try {
             // validate(jtxtUsername, jtxtPassword);
-            Controller.getInstance().pronadjiRadnika(jtxtUsername.getText().trim(), String.valueOf(jtxtPassword.getPassword()));
-            JOptionPane.showMessageDialog(this, "Uspesna prijava na sistem.");
+            
+            Radnik ulogovani=Controller.getInstance().pronadjiRadnika(jtxtUsername.getText().trim(), String.valueOf(jtxtPassword.getPassword()));
+
+            JOptionPane.showMessageDialog(this, "Uspesna prijava na sistem.\n Ulogovani radnik je: "+ulogovani.toString());
             
            
             dispose();
             new FMain().setVisible(true);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this,"Ne postoji radnik sa unetim parametrima.");
         }
-
+          
 
     }//GEN-LAST:event_jbtnLoginActionPerformed
 
@@ -154,5 +160,7 @@ public class FLogin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
+   
+    
 
 }

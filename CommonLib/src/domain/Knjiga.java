@@ -7,6 +7,8 @@ package domain;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,15 +16,15 @@ import java.util.List;
  *
  * @author krist
  */
-public class Knjiga implements Serializable {
+public class Knjiga implements Serializable, IGeneralObject {
 
-    private int id;
-    private String naslov;
-    private String zanr;
-    private String opis;
-    private String isbn;
-    private List<Primerak> primerci;
-    private List<Autor> autori;
+    protected Integer id;
+    protected String naslov;
+    protected String zanr;
+    protected String opis;
+    protected String isbn;
+    protected List<Primerak> primerci;
+    protected List<Autor> autori;
 
     public Knjiga() {
         this.primerci = new ArrayList<>();
@@ -30,7 +32,7 @@ public class Knjiga implements Serializable {
 
     }
 
-    public Knjiga(int id, String naslov, String zanr, String opis, String isbn, Autor autor, List<Primerak> primerci) {
+    public Knjiga(Integer id, String naslov, String zanr, String opis, String isbn) {
         this.id = id;
         this.naslov = naslov;
         this.zanr = zanr;
@@ -58,8 +60,8 @@ public class Knjiga implements Serializable {
         this.primerci = primerci;
     }
 
-    public int getId() {
-        return id;
+    public Integer getId() {
+        return this.id;
     }
 
     public void setId(int id) {
@@ -98,4 +100,72 @@ public class Knjiga implements Serializable {
         this.isbn = isbn;
     }
 
+    @Override
+    public String getTableName() {
+        return "knjiga";
+    }
+
+    @Override
+    public String getColumnNamesForInsert() {
+        return "naslov,zanr, isbn, opis";
+    }
+
+    @Override
+    public String getInsertValues() {
+           return new StringBuilder()
+                .append("'")
+                .append(this.naslov)
+                .append("', '")
+                .append(this.zanr)
+                .append("', '")
+                .append(this.isbn)
+                .append("', '")
+                .append(this.opis)
+                .append("'")
+                .toString();
+    }
+
+    @Override
+    public IGeneralObject getObject(ResultSet rs) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getObjectCase() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<IGeneralObject> getList(ResultSet rs) throws SQLException {
+         List<IGeneralObject> list = new ArrayList<>();
+        
+        while(rs.next()){
+           
+            Knjiga knjiga = new Knjiga();
+            knjiga.setId(rs.getInt("id"));
+            knjiga.setIsbn(rs.getString("isbn"));
+            knjiga.setNaslov(rs.getString("naslov"));
+            knjiga.setZanr(rs.getString("zanr"));
+            knjiga.setOpis(rs.getString("opis"));
+
+           
+            list.add(knjiga);
+            
+
+        }
+        return list;
+    }
+
+    @Override
+    public String getUpdateValues() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String toString() {
+        return naslov+" "+isbn; //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+    
 }

@@ -6,6 +6,8 @@
 package domain;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,8 +16,9 @@ import java.util.Objects;
  *
  * @author krist
  */
-public class Clan implements Serializable{
-    private int id;
+public class Clan implements Serializable, IGeneralObject
+{
+    private Integer id;
     private String ime;
     private String prezime;
     private String jmbg;
@@ -42,7 +45,7 @@ public class Clan implements Serializable{
         this.zaduzenja = zaduzenja;
     }
     
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -107,6 +110,75 @@ public class Clan implements Serializable{
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String getTableName() {
+        return "clan";    }
+
+    @Override
+    public String getColumnNamesForInsert() {
+          return "ime, prezime, jmbg, telefon";
+    }
+
+    @Override
+    public String getInsertValues() {
+            return new StringBuilder()
+                .append("'")
+                .append(this.ime)
+                .append("', '")
+                .append(this.prezime)
+                .append("', ")
+                .append(this.jmbg)
+                .append(", ")
+                .append(this.telefon)
+                .toString();
+        
+    }
+
+    @Override
+    public IGeneralObject getObject(ResultSet rs) throws SQLException {
+         Clan clan = new Clan();
+        clan.setId(rs.getInt("id"));
+        clan.setIme(rs.getString("ime"));
+        clan.setPrezime(rs.getString("prezime"));
+        clan.setJmbg(rs.getString("jmbg"));
+        clan.setTelefon(rs.getString("telefon"));
+       
+        return clan;
+        
+    }
+
+    @Override
+    public String getObjectCase() {
+        return "id = " + this.getId();
+    }
+
+    @Override
+    public List<IGeneralObject> getList(ResultSet rs) throws SQLException {
+     List<IGeneralObject> list = new ArrayList<>();
+        
+        while(rs.next()){
+            Clan clan = new Clan();
+            
+            clan.setId(rs.getInt("id"));
+            clan.setIme(rs.getString("ime"));
+            clan.setPrezime(rs.getString("prezime"));
+            clan.setJmbg(rs.getString("jmbg"));
+            clan.setTelefon(rs.getString("telefon"));
+           
+            list.add(clan);
+        }
+        
+        return list;    }
+
+    @Override
+    public String getUpdateValues() {
+          return new StringBuilder()
+                .append("ime = '").append(this.getIme()).append("', ")
+                .append("prezime = '").append(this.getPrezime()).append("', ")
+                .append("jmbg = ").append(this.getJmbg()).toString();
+        
     }
     
     

@@ -6,15 +6,19 @@
 package domain;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
  *
  * @author krist
  */
-public class Autor implements  Serializable{
+public class Autor implements  Serializable, IGeneralObject{
     
-    private int id;
+    private Integer id;
     private String ime;
     private String prezime;
     private String zemljaPorekla;
@@ -37,9 +41,7 @@ public class Autor implements  Serializable{
         this.zemljaPorekla = zemljaPorekla;
     }
 
-    public int getId() {
-        return id;
-    }
+   
 
     public void setId(int id) {
         this.id = id;
@@ -90,6 +92,68 @@ public class Autor implements  Serializable{
     @Override
     public String toString() {
         return ime+" "+prezime; //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getTableName() {
+    return "autor";
+    }
+
+    @Override
+    public String getColumnNamesForInsert() {
+        return "ime, prezime, zemljaPorekla";
+    }
+
+    @Override
+    public String getInsertValues() {
+        return new StringBuilder()
+                .append("'")
+                .append(this.ime)
+                .append("', ")
+                .append(this.prezime)
+                .append(", ")
+                .append(this.zemljaPorekla)
+                .toString();
+    }
+
+    @Override
+    public IGeneralObject getObject(ResultSet rs) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getObjectCase() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<IGeneralObject> getList(ResultSet rs) throws SQLException {
+          List<IGeneralObject> list = new ArrayList<>();
+        
+        while(rs.next()){
+           
+            Autor autor=new Autor();
+            autor.setId(rs.getInt("id"));
+            autor.setIme(rs.getString("ime"));
+            autor.setPrezime(rs.getString("prezime"));
+            autor.setZemljaPorekla(rs.getString("zemljaPorekla"));
+
+           
+            list.add(autor);
+            
+
+        }
+    return list;
+    }
+
+    @Override
+    public String getUpdateValues() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Integer getId() {
+        return this.id;
     }
 
     

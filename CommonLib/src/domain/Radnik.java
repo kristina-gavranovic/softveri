@@ -6,14 +6,19 @@
 package domain;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  *
  * @author student1
  */
-public class Radnik implements Serializable {
+public class Radnik implements Serializable,IGeneralObject {
 
-    private int id;
+    private Integer id;
     private String ime;
     private String prezime;
     private String username;
@@ -32,7 +37,7 @@ public class Radnik implements Serializable {
         this.status = status;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -80,9 +85,124 @@ public class Radnik implements Serializable {
         this.status = status;
     }
 
+    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Radnik other = (Radnik) obj;
+        if (!Objects.equals(this.username, other.username)) {
+            return false;
+        }
+        if (!Objects.equals(this.password, other.password)) {
+            return false;
+        }
+        return true;
+    }
+
+        
     @Override
     public String toString() {
         return this.ime + " " + this.prezime; 
+    }
+
+    @Override
+    public String getTableName() {
+        return "radnik";
+    }
+
+    @Override
+    public String getColumnNamesForInsert() {
+        return "ime, prezime, username, password, status";
+    }
+
+    @Override
+    public String getInsertValues() {
+         return new StringBuilder()
+                .append("'")
+                .append(this.ime)
+                .append("', '")
+                .append(this.prezime)
+                .append("', '")
+                .append(this.username)
+                .append("', '")
+                .append(this.password) 
+                 .append("', ")
+                .append(this.status.getId())
+                .toString();
+        
+    }
+
+    @Override
+    public IGeneralObject getObject(ResultSet rs) throws SQLException {
+         if(rs.next()){
+        Radnik radnik = new Radnik();
+        radnik.setId(rs.getInt("id"));
+        radnik.setIme(rs.getString("ime"));
+        radnik.setPrezime(rs.getString("prezime"));
+        radnik.setUsername(rs.getString("username"));
+        radnik.setPassword(rs.getString("password"));
+        radnik.setStatus(StatusRadnika.getById(rs.getInt("status")));
+        return radnik;
+         }
+         return  null;
+           //sklonjeno da baca EXCP jer je blokirao formu 
+       // throw new SQLException("Wrong username ili pass");
+        
+        
+        
+    }
+
+    @Override
+    public String getObjectCase() {
+                return "password= '" + this.getPassword()+ "' AND username = '" + this.getUsername() + "'";
+
+           
+
+
+    }
+
+    @Override
+        public List<IGeneralObject> getList(ResultSet rs) throws SQLException {
+                 List<IGeneralObject> list = new ArrayList<>();
+        
+        while(rs.next()){
+            Radnik radnik = new Radnik();
+            
+            radnik.setId(rs.getInt("id"));
+            radnik.setIme(rs.getString("ime"));
+            radnik.setPrezime(rs.getString("prezime"));
+            radnik.setUsername(rs.getString("username"));
+            radnik.setPassword(rs.getString("password"));
+            
+                  radnik.setStatus(StatusRadnika.getById(rs.getInt("status")));
+
+           
+            list.add(radnik);
+        }
+        
+        return list; 
+
+
+    }
+
+    @Override
+    public String getUpdateValues() {
+         return new StringBuilder()
+                .append("ime = '").append(this.getIme()).append("', ")
+                .append("prezime = '").append(this.getPrezime()).append("', ")
+                .append("username= ").append(this.getUsername())
+                 .append("password= ").append(this.getPassword())
+                 .toString();
+        
     }
 
 }

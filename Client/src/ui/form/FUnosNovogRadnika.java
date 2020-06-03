@@ -157,7 +157,9 @@ public class FUnosNovogRadnika extends javax.swing.JDialog {
     private void btnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacuvajActionPerformed
         
         try {
-            Radnik noviRadnik=new Radnik(-1, txtIme.getText(), txtPrezime.getText(), txtUsername.getText(), txtPassword.getText(), StatusRadnika.valueOf(cmbStatus.getSelectedItem().toString()));
+            Radnik noviRadnik=new Radnik(-1, txtIme.getText(), txtPrezime.getText(), txtUsername.getText().trim(), txtPassword.getText().trim(), StatusRadnika.valueOf(cmbStatus.getSelectedItem().toString()));
+           
+            System.out.println("Nije enum problem");
             noviRadnik=Controller.getInstance().sacuvajRadnika(noviRadnik);
             JOptionPane.showMessageDialog(this, "Uspesno su uneti podaci o radniku. ");
             

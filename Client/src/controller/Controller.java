@@ -16,9 +16,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import transfer.RequestObject;
 import transfer.ResponseObject;
 import util.Operation;
@@ -26,20 +24,18 @@ import util.ResponseStatus;
 
 /**
  *
- * @author student1
+ * @author Kristina
  */
 
 
 public class Controller {
 
     private static Controller instance;
-    private final Map<String, Object> map; 
     private final Socket socket;
     private final ObjectOutputStream objectOutputStream;
     private final ObjectInputStream objectInputStream;
 
     private Controller() throws IOException {
-        map = new HashMap<>();
         socket = new Socket("localhost", 9000);
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectInputStream = new ObjectInputStream(socket.getInputStream());
@@ -49,29 +45,31 @@ public class Controller {
         if (instance == null) {
             instance = new Controller();
         }
-
         return instance;
     }
 
-    public void pronadjiRadnika(String username, String password) throws IOException, ClassNotFoundException, Exception {
+    public Radnik pronadjiRadnika(String username, String password) throws IOException, ClassNotFoundException, Exception {
         RequestObject requestObject = new RequestObject();
         requestObject.setOperation(Operation.OPERATION_LOGIN);
-        Map<String, String> radnikMap = new HashMap<>();
-        radnikMap.put("username", username);
-        radnikMap.put("password", password);
-        requestObject.setData(radnikMap);
+        Radnik radnik=new Radnik();
+        radnik.setUsername(username);
+        radnik.setPassword(password);
+        
+        requestObject.setData(radnik);
 
         objectOutputStream.writeObject(requestObject);
         objectOutputStream.flush();
 
         ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
 
-        ResponseStatus status = responseObject.getStatus();
-        if (status == ResponseStatus.SUCCESS) {
-            map.put("radnik", responseObject.getData());
-        } else {
-            throw new Exception(responseObject.getErrorMessage());
+        if ( responseObject.getStatus() == ResponseStatus.SUCCESS) {
+          return   (Radnik) responseObject.getData();
         }
+        if( responseObject.getStatus()==ResponseStatus.ERROR){
+            //System.out.println("bacio excp u controlleru na klijetu");
+            throw new Exception(responseObject.getErrorMessage()+"");
+        }
+        return null;
     }
 
     public Radnik sacuvajRadnika(Radnik noviRadnik) throws Exception {
@@ -90,7 +88,6 @@ public class Controller {
 
         objectOutputStream.writeObject(requestObject);
         objectOutputStream.flush();
-        //waiting response
         ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
 
         ResponseStatus status = responseObject.getStatus();
@@ -130,7 +127,17 @@ public class Controller {
         if (responseObject.getStatus() == ResponseStatus.ERROR) {
             throw new Exception(responseObject.getErrorMessage());
         }
-       return  (ArrayList<Primerak>) responseObject.getData();
+        
+        ArrayList<Primerak> list=(ArrayList<Primerak>) responseObject.getData();
+        ArrayList<Primerak> listZadovoljavaUslov=new ArrayList<>();
+        
+        for (Primerak primerak : list) {
+            if(primerak.getNaslov().toLowerCase().contains(pretraga.toLowerCase()))
+                listZadovoljavaUslov.add(primerak);
+        }
+        
+        
+       return  listZadovoljavaUslov;
     }
 
     

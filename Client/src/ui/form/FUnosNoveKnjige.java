@@ -8,7 +8,7 @@ package ui.form;
 import controller.Controller;
 import domain.Autor;
 import domain.Knjiga;
-import domain.ZanrKnjige;
+import util.ZanrKnjige;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
