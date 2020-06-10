@@ -21,6 +21,7 @@ import service.so.impl.SOSacuvajZaduzenje;
 import service.so.impl.SOVratiKnjigu;
 import service.so.impl.SOVratiSveAutore;
 import service.so.impl.SOVratiSveClanove;
+import service.so.impl.SOVratiSveKnjige;
 import service.so.impl.SOVratiZaduzenja;
 
 /**
@@ -80,5 +81,9 @@ public class Controller {
 
     public Object vratiKnjigu(Zaduzenje zaduzenje) throws Exception {
         return  new SOVratiKnjigu().execute(zaduzenje);
+    }
+
+    public Object vratiSveKnjige() throws Exception {
+        return (List<Clan>) new SOVratiSveKnjige().execute(new Knjiga());
     }
 }

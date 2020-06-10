@@ -124,6 +124,9 @@ public class ClientThread extends Thread {
                 data = Controller.getInstance().vratiKnjigu((Zaduzenje) requestObject.getData());
                 msg = "Uspesno VRATIO zaduzenje";
                 break;
+            case Operation.OPERATION_SVE_KNJIGE:
+                data = Controller.getInstance().vratiSveKnjige();
+                break;
 
         }
         return new ResponseObject(ResponseStatus.SUCCESS, data, msg);

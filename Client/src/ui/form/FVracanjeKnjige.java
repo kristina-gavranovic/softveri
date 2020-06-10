@@ -7,6 +7,7 @@ package ui.form;
 
 import controller.Controller;
 import domain.Clan;
+import domain.Knjiga;
 import domain.Zaduzenje;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -158,9 +159,12 @@ public class FVracanjeKnjige extends javax.swing.JDialog {
         }
 
         try {
+            //
             ArrayList<Zaduzenje> zaduzenjaClana = Controller.getInstance().vratiZaduzenjaClana(clan.getId());
+            ArrayList<Knjiga> knjige = Controller.getInstance().vratiSveKnjige();
+            
 
-            ((ZaduzenjeTableModel) tabelaZaduzenja.getModel()).setZaduzenja(zaduzenjaClana);
+            ((ZaduzenjeTableModel) tabelaZaduzenja.getModel()).setZaduzenja(zaduzenjaClana, knjige);
 
 //            List<Zaduzenje> searchResults = new ArrayList<>();
 //
@@ -189,8 +193,10 @@ public class FVracanjeKnjige extends javax.swing.JDialog {
         }
 
         try {
+                        ArrayList<Knjiga> knjige = Controller.getInstance().vratiSveKnjige();
+
             ArrayList<Zaduzenje> zaduzenjaClana = Controller.getInstance().vratiZaduzenjaClana(clan.getId());
-            ((ZaduzenjeTableModel) tabelaZaduzenja.getModel()).setZaduzenja(zaduzenjaClana);
+            ((ZaduzenjeTableModel) tabelaZaduzenja.getModel()).setZaduzenja(zaduzenjaClana,knjige);
 
         } catch (Exception ex) {
             Logger.getLogger(FVracanjeKnjige.class.getName()).log(Level.SEVERE, null, ex);

@@ -204,4 +204,19 @@ public class Controller {
         }
     }
 
+    public ArrayList<Knjiga> vratiSveKnjige() throws Exception {
+    RequestObject requestObject = new RequestObject();
+        requestObject.setOperation(Operation.OPERATION_SVE_KNJIGE);
+
+        objectOutputStream.writeObject(requestObject);
+        objectOutputStream.flush();
+        ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
+
+        ResponseStatus status = responseObject.getStatus();
+        if (status == ResponseStatus.SUCCESS) {
+            return (ArrayList<Knjiga>) responseObject.getData();
+        } else {
+            throw new Exception(responseObject.getErrorMessage());
+        }    }
+
 }
