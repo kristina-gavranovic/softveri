@@ -4,6 +4,7 @@ import controller.Controller;
 import domain.Clan;
 import domain.Knjiga;
 import domain.Radnik;
+import domain.Zaduzenje;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -101,6 +102,27 @@ public class ClientThread extends Thread {
 
             case Operation.OPERATION_PRETRAGA_KNJIGA:
                 data = Controller.getInstance().pronadjiPrimerke();
+                if (data == null) {
+                    return new ResponseObject(ResponseStatus.ERROR, null, "Nema takvih knjiga");
+                }
+                break;
+
+            case Operation.OPERATION_SVI_CLANOVI:
+                data = Controller.getInstance().vratiSveClanove();
+                break;
+
+            case Operation.OPERATION_SACUVAJ_ZADUZENJE:
+                data = Controller.getInstance().sacuvajZaduzenje((Zaduzenje) requestObject.getData());
+                msg = "Uspesno sacuvano zaduzenje";
+                break;
+
+            case Operation.OPERATION_SVA_ZADUZENJA:
+                data = Controller.getInstance().vratiZaduzenja();
+                msg = "Uspesno nasao zaduzenje";
+                break;
+            case Operation.OPERATION_VRATI_KNJIGU:
+                data = Controller.getInstance().vratiKnjigu((Zaduzenje) requestObject.getData());
+                msg = "Uspesno VRATIO zaduzenje";
                 break;
 
         }

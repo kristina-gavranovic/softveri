@@ -16,8 +16,8 @@ import java.util.Objects;
  *
  * @author krist
  */
-public class Clan implements Serializable, IGeneralObject
-{
+public class Clan implements Serializable, IGeneralObject {
+
     private Integer id;
     private String ime;
     private String prezime;
@@ -37,6 +37,11 @@ public class Clan implements Serializable, IGeneralObject
         this.zaduzenja = new ArrayList<>();
     }
 
+    public Clan(Integer id) {
+        this.id = id;
+
+    }
+
     public List<Zaduzenje> getZaduzenja() {
         return zaduzenja;
     }
@@ -44,7 +49,7 @@ public class Clan implements Serializable, IGeneralObject
     public void setZaduzenja(List<Zaduzenje> zaduzenja) {
         this.zaduzenja = zaduzenja;
     }
-    
+
     public Integer getId() {
         return id;
     }
@@ -52,7 +57,6 @@ public class Clan implements Serializable, IGeneralObject
     public void setId(int id) {
         this.id = id;
     }
-
 
     public String getIme() {
         return ime;
@@ -88,7 +92,7 @@ public class Clan implements Serializable, IGeneralObject
 
     @Override
     public String toString() {
-        return this.ime+""+this.prezime; 
+        return this.ime + " " + this.prezime;
     }
 
     @Override
@@ -106,7 +110,7 @@ public class Clan implements Serializable, IGeneralObject
             return false;
         }
         final Clan other = (Clan) obj;
-        if (!Objects.equals(this.jmbg, other.jmbg)) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -114,16 +118,17 @@ public class Clan implements Serializable, IGeneralObject
 
     @Override
     public String getTableName() {
-        return "clan";    }
+        return "clan";
+    }
 
     @Override
     public String getColumnNamesForInsert() {
-          return "ime, prezime, jmbg, telefon";
+        return "ime, prezime, jmbg, telefon";
     }
 
     @Override
     public String getInsertValues() {
-            return new StringBuilder()
+        return new StringBuilder()
                 .append("'")
                 .append(this.ime)
                 .append("', '")
@@ -133,20 +138,23 @@ public class Clan implements Serializable, IGeneralObject
                 .append(", ")
                 .append(this.telefon)
                 .toString();
-        
+
     }
 
     @Override
     public IGeneralObject getObject(ResultSet rs) throws SQLException {
-         Clan clan = new Clan();
+        if(rs.next()){
+        Clan clan = new Clan();
         clan.setId(rs.getInt("id"));
         clan.setIme(rs.getString("ime"));
         clan.setPrezime(rs.getString("prezime"));
         clan.setJmbg(rs.getString("jmbg"));
         clan.setTelefon(rs.getString("telefon"));
-       
-        return clan;
-        
+
+        return clan;}
+             throw new SQLException("No clan in result set");
+
+
     }
 
     @Override
@@ -156,31 +164,30 @@ public class Clan implements Serializable, IGeneralObject
 
     @Override
     public List<IGeneralObject> getList(ResultSet rs) throws SQLException {
-     List<IGeneralObject> list = new ArrayList<>();
-        
-        while(rs.next()){
+        List<IGeneralObject> list = new ArrayList<>();
+
+        while (rs.next()) {
             Clan clan = new Clan();
-            
+
             clan.setId(rs.getInt("id"));
             clan.setIme(rs.getString("ime"));
             clan.setPrezime(rs.getString("prezime"));
             clan.setJmbg(rs.getString("jmbg"));
             clan.setTelefon(rs.getString("telefon"));
-           
+
             list.add(clan);
         }
-        
-        return list;    }
+
+        return list;
+    }
 
     @Override
     public String getUpdateValues() {
-          return new StringBuilder()
+        return new StringBuilder()
                 .append("ime = '").append(this.getIme()).append("', ")
                 .append("prezime = '").append(this.getPrezime()).append("', ")
                 .append("jmbg = ").append(this.getJmbg()).toString();
-        
+
     }
-    
-    
-    
+
 }

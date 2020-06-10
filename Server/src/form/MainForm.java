@@ -40,6 +40,7 @@ public class MainForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnPokreniServer = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuServer = new javax.swing.JMenu();
         jMenuItemServerStart = new javax.swing.JMenuItem();
@@ -50,6 +51,13 @@ public class MainForm extends javax.swing.JFrame {
         jMenuItemDatabaseConfiguration = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        btnPokreniServer.setText("Pokreni server");
+        btnPokreniServer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPokreniServerActionPerformed(evt);
+            }
+        });
 
         jMenuServer.setText("Server");
 
@@ -95,11 +103,17 @@ public class MainForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(122, 122, 122)
+                .addComponent(btnPokreniServer, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(164, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 279, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(btnPokreniServer)
+                .addContainerGap(210, Short.MAX_VALUE))
         );
 
         pack();
@@ -146,8 +160,27 @@ public class MainForm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItemCurrentUserActionPerformed
 
+    private void btnPokreniServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPokreniServerActionPerformed
+        // TODO add your handling code here:
+          if (theServerThread == null || !theServerThread.isAlive()) {
+            try {
+                theServerThread = new ServerThread();
+                theServerThread.start();
+
+                jMenuItemServerStart.setEnabled(false);
+                jMenuItemServerStop.setEnabled(true);
+
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } else {
+            System.err.println("Server thread is started");
+        }
+    }//GEN-LAST:event_btnPokreniServerActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPokreniServer;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuConfiguration;
     private javax.swing.JMenuItem jMenuItemCurrentUser;

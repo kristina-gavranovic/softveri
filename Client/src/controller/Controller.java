@@ -11,6 +11,7 @@ import domain.Knjiga;
 import domain.Primerak;
 
 import domain.Radnik;
+import domain.Zaduzenje;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -26,8 +27,6 @@ import util.ResponseStatus;
  *
  * @author Kristina
  */
-
-
 public class Controller {
 
     private static Controller instance;
@@ -51,10 +50,10 @@ public class Controller {
     public Radnik pronadjiRadnika(String username, String password) throws IOException, ClassNotFoundException, Exception {
         RequestObject requestObject = new RequestObject();
         requestObject.setOperation(Operation.OPERATION_LOGIN);
-        Radnik radnik=new Radnik();
+        Radnik radnik = new Radnik();
         radnik.setUsername(username);
         radnik.setPassword(password);
-        
+
         requestObject.setData(radnik);
 
         objectOutputStream.writeObject(requestObject);
@@ -62,12 +61,12 @@ public class Controller {
 
         ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
 
-        if ( responseObject.getStatus() == ResponseStatus.SUCCESS) {
-          return   (Radnik) responseObject.getData();
+        if (responseObject.getStatus() == ResponseStatus.SUCCESS) {
+            return (Radnik) responseObject.getData();
         }
-        if( responseObject.getStatus()==ResponseStatus.ERROR){
+        if (responseObject.getStatus() == ResponseStatus.ERROR) {
             //System.out.println("bacio excp u controlleru na klijetu");
-            throw new Exception(responseObject.getErrorMessage()+"");
+            throw new Exception(responseObject.getErrorMessage() + "");
         }
         return null;
     }
@@ -120,26 +119,89 @@ public class Controller {
 
     }
 
-    public ArrayList<Primerak> pronadjiPrimerke(String pretraga) throws IOException, Exception {
+    public ArrayList<Knjiga> pronadjiKnjige(String pretraga) throws IOException, Exception {
         RequestObject requestObject = new RequestObject(Operation.OPERATION_PRETRAGA_KNJIGA, pretraga);
         objectOutputStream.writeObject(requestObject);
         ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
         if (responseObject.getStatus() == ResponseStatus.ERROR) {
             throw new Exception(responseObject.getErrorMessage());
         }
-        
-        ArrayList<Primerak> list=(ArrayList<Primerak>) responseObject.getData();
-        ArrayList<Primerak> listZadovoljavaUslov=new ArrayList<>();
-        
-        for (Primerak primerak : list) {
-            if(primerak.getNaslov().toLowerCase().contains(pretraga.toLowerCase()))
-                listZadovoljavaUslov.add(primerak);
+
+        ArrayList<Knjiga> list = (ArrayList<Knjiga>) responseObject.getData();
+        ArrayList<Knjiga> listZadovoljavaUslov = new ArrayList<>();
+
+        for (Knjiga knjiga : list) {
+            if (knjiga.getNaslov().toLowerCase().contains(pretraga.toLowerCase())) {
+                listZadovoljavaUslov.add(knjiga);
+            }
+
         }
-        
-        
-       return  listZadovoljavaUslov;
+
+        return listZadovoljavaUslov;
     }
 
-    
-     
+    public ArrayList<Clan> vratiSveClanove() throws Exception {
+        RequestObject requestObject = new RequestObject();
+        requestObject.setOperation(Operation.OPERATION_SVI_CLANOVI);
+
+        objectOutputStream.writeObject(requestObject);
+        objectOutputStream.flush();
+        ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
+
+        ResponseStatus status = responseObject.getStatus();
+        if (status == ResponseStatus.SUCCESS) {
+            return (ArrayList<Clan>) responseObject.getData();
+        } else {
+            throw new Exception(responseObject.getErrorMessage());
+        }
+
+    }
+
+    public void sacuvajZaduzenje(Zaduzenje zaduzenje) throws Exception {
+        RequestObject requestObject = new RequestObject(Operation.OPERATION_SACUVAJ_ZADUZENJE, zaduzenje);
+        objectOutputStream.writeObject(requestObject);
+        ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
+        if (responseObject.getStatus() == ResponseStatus.ERROR) {
+            throw new Exception(responseObject.getErrorMessage());
+        }
+
+    }
+
+    public ArrayList<Zaduzenje> vratiZaduzenjaClana(Integer clanID) throws Exception {
+        RequestObject requestObject = new RequestObject();
+        requestObject.setOperation(Operation.OPERATION_SVA_ZADUZENJA);
+
+        objectOutputStream.writeObject(requestObject);
+        objectOutputStream.flush();
+        ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
+
+        ResponseStatus status = responseObject.getStatus();
+        if (status == ResponseStatus.SUCCESS) {
+            ArrayList<Zaduzenje> lista = (ArrayList<Zaduzenje>) responseObject.getData();
+            if (clanID != -1) {
+                List<Zaduzenje> searchResults = new ArrayList<>();
+
+                for (Zaduzenje zaduzenje : lista) {
+                    if (zaduzenje.getClan().getId() == clanID) {
+                        searchResults.add(zaduzenje);
+                    }
+                }
+                return (ArrayList<Zaduzenje>) searchResults;
+            }
+
+            return lista;
+        } else {
+            throw new Exception(responseObject.getErrorMessage());
+        }
+    }
+
+    public void vratiKnjigu(Zaduzenje zaduzenje) throws Exception {
+          RequestObject requestObject = new RequestObject(Operation.OPERATION_VRATI_KNJIGU, zaduzenje);
+        objectOutputStream.writeObject(requestObject);
+        ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
+        if (responseObject.getStatus() == ResponseStatus.ERROR) {
+            throw new Exception(responseObject.getErrorMessage());
+        }
+    }
+
 }

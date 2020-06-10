@@ -37,6 +37,11 @@ public class Radnik implements Serializable,IGeneralObject {
         this.status = status;
     }
 
+    Radnik(Integer id) {
+        this.id = id;
+
+    }
+
     public Integer getId() {
         return id;
     }

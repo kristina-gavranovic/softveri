@@ -5,6 +5,7 @@
  */
 package ui.form;
 
+import domain.Radnik;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,14 +15,17 @@ import java.util.logging.Logger;
  */
 public class FMain extends javax.swing.JFrame {
 
+    Radnik ulogovaniRadnik;
+
     /**
      * Creates new form FMain
      */
-    public FMain() {
+    public FMain(Radnik ulogovani) {
         initComponents();
-
+        ulogovaniRadnik = ulogovani;
+        lblUlogovaniRadnik.setText(ulogovaniRadnik.toString());
         setLocationRelativeTo(null);
-       
+
     }
 
     /**
@@ -37,6 +41,7 @@ public class FMain extends javax.swing.JFrame {
         btnVracanjeKnjige = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        lblUlogovaniRadnik = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuKnjige = new javax.swing.JMenu();
         jMenuItemKnjigeNova = new javax.swing.JMenuItem();
@@ -71,6 +76,8 @@ public class FMain extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Kristina\\Desktop\\kk.jpg")); // NOI18N
 
         jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Kristina\\Desktop\\oo.jpg")); // NOI18N
+
+        lblUlogovaniRadnik.setText("jLabel3");
 
         jMenuBar.setForeground(new java.awt.Color(204, 0, 204));
 
@@ -127,52 +134,60 @@ public class FMain extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addComponent(btnNovoZaduzenje, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(31, 31, 31)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(btnNovoZaduzenje, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnVracanjeKnjige, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                        .addGap(100, 100, 100))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(jLabel2)
+                        .addContainerGap(46, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblUlogovaniRadnik)
+                .addGap(173, 173, 173))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNovoZaduzenje, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnVracanjeKnjige, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(lblUlogovaniRadnik)
+                .addGap(22, 22, 22))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemKnjigePretragaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemKnjigePretragaActionPerformed
-       
-        FPretragaKnjiga form=new FPretragaKnjiga(this, true);
+
+        FPretragaKnjiga form = new FPretragaKnjiga(this,ulogovaniRadnik, ViewMode.PREVIEW);
 
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItemKnjigePretragaActionPerformed
 
     private void jMenuItemKnjigeNovaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemKnjigeNovaActionPerformed
-        
+
         try {
-             FUnosNoveKnjige form=new FUnosNoveKnjige(this, true);
-             form.setVisible(true);
+            FUnosNoveKnjige form = new FUnosNoveKnjige(this, true);
+            form.setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(FMain.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+
     }//GEN-LAST:event_jMenuItemKnjigeNovaActionPerformed
 
     private void jmenuItemClanNoviActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuItemClanNoviActionPerformed
@@ -182,22 +197,28 @@ public class FMain extends javax.swing.JFrame {
 
     private void jMenuItemRadnikNoviActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRadnikNoviActionPerformed
         // TODO add your handling code here:
-        FUnosNovogRadnika form=new FUnosNovogRadnika(this, true);
+        FUnosNovogRadnika form = new FUnosNovogRadnika(this, true);
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItemRadnikNoviActionPerformed
 
     private void btnNovoZaduzenjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoZaduzenjeActionPerformed
         // TODO add your handling code here:
-        FUnosNovogZaduzenja form=new FUnosNovogZaduzenja(this, true);
+        FPretragaKnjiga form = new FPretragaKnjiga(this,  ulogovaniRadnik, ViewMode.EDIT);
         form.setVisible(true);
     }//GEN-LAST:event_btnNovoZaduzenjeActionPerformed
 
     private void btnVracanjeKnjigeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVracanjeKnjigeActionPerformed
         // TODO add your handling code here:
-        FVracanjeKnjige form=new FVracanjeKnjige(this, false);
+        FVracanjeKnjige form = new FVracanjeKnjige(this, false);
         form.setVisible(true);
     }//GEN-LAST:event_btnVracanjeKnjigeActionPerformed
 
+    public Radnik getUlogovaniRadnik() {
+        return ulogovaniRadnik;
+    }
+
+        
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNovoZaduzenje;
@@ -212,5 +233,7 @@ public class FMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuRadnik;
     private javax.swing.JMenu jmenuClan;
     private javax.swing.JMenuItem jmenuItemClanNovi;
+    private javax.swing.JLabel lblUlogovaniRadnik;
     // End of variables declaration//GEN-END:variables
+
 }

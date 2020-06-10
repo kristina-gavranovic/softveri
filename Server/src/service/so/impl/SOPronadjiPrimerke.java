@@ -6,6 +6,7 @@
 package service.so.impl;
 
 import domain.Autor;
+import domain.AutorKnjiga;
 import domain.IGeneralObject;
 import domain.Knjiga;
 import domain.Primerak;
@@ -26,19 +27,29 @@ public class SOPronadjiPrimerke extends AbstractGenericOperation {
 
     @Override
     protected Object executeOperation(Object entity) throws Exception {
-        List<Primerak> listKonacan = new ArrayList<>();
+        
         List<Knjiga> listaKnjiga = convertToKnjiga(genericDao.find(new Knjiga()));
 
+            //dodati metode koje setuju primerke i autore na knjigu 
+            //promeniti tableModel za knjigu
         for (Knjiga knjiga : listaKnjiga) {
+            System.out.println(knjiga+" je ucitana iz baze" +knjiga.getId());
             List<Primerak> listaPrimeraka = convertToPrimerak(genericDao.findBy(new Primerak(), "knjigaID", knjiga.getId().toString()));
-            for (Primerak p : listaPrimeraka) {
-                Primerak primerak = new Primerak(p.getRbr(), p.getIzdavac(), p.getStatus(), p.getGodinaIzdavanja(), knjiga.getId(), knjiga.getNaslov(), knjiga.getZanr(), knjiga.getOpis(), knjiga.getIsbn());
-
-                listKonacan.add(primerak);
+            knjiga.setPrimerci(listaPrimeraka);
+            
+          
+           List<AutorKnjiga> listaAutorKnjiga=convertToAutorKnjiga(genericDao.findBy(new AutorKnjiga(), "idKnjiga", knjiga.getId().toString()));
+           
+           List<Autor> listAutor=new ArrayList<>();
+           for (AutorKnjiga ak : listaAutorKnjiga) {
+                Autor a=(Autor) genericDao.findBy(new Autor(), "id", ak.getAutorID().toString()).get(0);
+                listAutor.add(a);
             }
+           knjiga.setAutori(listAutor);
+
 
         }
-        return listKonacan;
+        return listaKnjiga;
 
     }
 
@@ -57,4 +68,12 @@ public class SOPronadjiPrimerke extends AbstractGenericOperation {
         }
         return list;
     }
+     private List<AutorKnjiga> convertToAutorKnjiga(List<IGeneralObject> find) {
+        List<AutorKnjiga> list = new ArrayList<>();
+        for (IGeneralObject i : find) {
+            list.add((AutorKnjiga) i);
+        }
+        return list;
+    }
+    
 }

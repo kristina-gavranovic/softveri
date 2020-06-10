@@ -6,27 +6,34 @@
 package ui.form;
 
 import controller.Controller;
+import domain.Knjiga;
 import domain.Primerak;
+import domain.Radnik;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ui.component.table.model.PretragaPrimerakaTableModel;
+import javax.swing.JOptionPane;
+import ui.component.table.model.KnjigaTableModel;
+import ui.component.table.model.PrimerakTableModel;
 
 /**
  *
  * @author krist
  */
-public class FPretragaKnjiga extends javax.swing.JDialog {
+public class FPretragaKnjiga extends javax.swing.JFrame {
+
+    Radnik ulogovaniRadnik;
 
     /**
      * Creates new form FPretragaKnjiga
      */
-    public FPretragaKnjiga(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public FPretragaKnjiga(java.awt.Frame parent, Radnik ulogovaniRadnik, ViewMode mode) {
+        // super(parent, modal);
         initComponents();
+        prepareForm(ulogovaniRadnik, mode);
         setLocationRelativeTo(null);
-        postaviModelTabele();
+
     }
 
     /**
@@ -45,6 +52,7 @@ public class FPretragaKnjiga extends javax.swing.JDialog {
         btnPronadji = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaPretraga = new javax.swing.JTable();
+        btnZaduzi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -86,7 +94,7 @@ public class FPretragaKnjiga extends javax.swing.JDialog {
                         .addComponent(txtPretraga, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(59, 59, 59)
                         .addComponent(btnPronadji, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -98,8 +106,15 @@ public class FPretragaKnjiga extends javax.swing.JDialog {
                     .addComponent(btnPronadji))
                 .addGap(47, 47, 47)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        btnZaduzi.setText("Zaduzi");
+        btnZaduzi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnZaduziActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -107,30 +122,35 @@ public class FPretragaKnjiga extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 23, Short.MAX_VALUE))
+                .addGap(0, 9, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(btnZaduzi, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 82, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnZaduzi)
+                .addGap(0, 24, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(33, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -138,66 +158,81 @@ public class FPretragaKnjiga extends javax.swing.JDialog {
 
     private void btnPronadjiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPronadjiActionPerformed
         // TODO add your handling code here:
-        
-        String pretraga=txtPretraga.getText();
-        PretragaPrimerakaTableModel model=(PretragaPrimerakaTableModel) tabelaPretraga.getModel();
-        
+
+        String pretraga = txtPretraga.getText();
+        KnjigaTableModel model = (KnjigaTableModel) tabelaPretraga.getModel();
+
         try {
-            ArrayList<Primerak> listaPrimeraka=Controller.getInstance().pronadjiPrimerke(pretraga);
-            model.setPrimerci(listaPrimeraka);
+            ArrayList<Knjiga> listaKnjiga = Controller.getInstance().pronadjiKnjige(pretraga);
+            model.setKnjige(listaKnjiga);
             model.fireTableDataChanged();
-            
+
         } catch (Exception ex) {
             Logger.getLogger(FPretragaKnjiga.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
+
     }//GEN-LAST:event_btnPronadjiActionPerformed
+
+    private void btnZaduziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZaduziActionPerformed
+        // TODO add your handling code here:
+
+        int rowIndex = tabelaPretraga.getSelectedRow();
+        if (rowIndex >= 0) {
+            Knjiga izabrana = ((KnjigaTableModel) tabelaPretraga.getModel()).getKnjige().get(rowIndex);
+            new FUnosNovogZaduzenja(this, true, ulogovaniRadnik, izabrana).setVisible(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Izaberite knjigu koju zelite da zaduzite!");
+        }
+
+    }//GEN-LAST:event_btnZaduziActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FPretragaKnjiga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FPretragaKnjiga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FPretragaKnjiga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FPretragaKnjiga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FPretragaKnjiga dialog = new FPretragaKnjiga(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(FPretragaKnjiga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(FPretragaKnjiga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(FPretragaKnjiga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(FPretragaKnjiga.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the dialog */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                FPretragaKnjiga dialog = new FPretragaKnjiga(new javax.swing.JFrame(), true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPronadji;
+    private javax.swing.JButton btnZaduzi;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -206,11 +241,26 @@ public class FPretragaKnjiga extends javax.swing.JDialog {
     private javax.swing.JTextField txtPretraga;
     // End of variables declaration//GEN-END:variables
 
-  
+    private void prepareForm(Radnik ulogovaniRadnik, ViewMode mode) {
+        this.ulogovaniRadnik = ulogovaniRadnik;
 
-    private void postaviModelTabele() {
-        PretragaPrimerakaTableModel model=new PretragaPrimerakaTableModel();
+        KnjigaTableModel model = new KnjigaTableModel();
         tabelaPretraga.setModel(model);
-        
+
+        switch (mode) {
+            case PREVIEW:
+                btnZaduzi.setEnabled(false);
+                break;
+
+            case EDIT:
+                btnZaduzi.setEnabled(true);
+
+                break;
+
+            case DELETE:
+
+                break;
+        }
+
     }
 }

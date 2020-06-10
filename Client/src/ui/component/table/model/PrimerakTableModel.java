@@ -17,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
 public class PrimerakTableModel extends AbstractTableModel {
 
     private Knjiga knjiga;
-    private String[] columnNames = new String[]{"Izdavac", "Godina izdavanja"};
+    private String[] columnNames = new String[]{"Izdavac", "Godina izdavanja", "Status"};
 
     public PrimerakTableModel(Knjiga knjiga) {
         this.knjiga = knjiga;
@@ -58,6 +58,8 @@ public class PrimerakTableModel extends AbstractTableModel {
                 return p.getIzdavac();
             case 1:
                 return p.getGodinaIzdavanja();
+            case 2:
+                return p.getStatus();
 
             default:
                 return "Greska!";

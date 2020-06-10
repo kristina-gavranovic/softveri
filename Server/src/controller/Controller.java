@@ -10,13 +10,18 @@ import domain.Clan;
 import domain.Knjiga;
 import domain.Primerak;
 import domain.Radnik;
+import domain.Zaduzenje;
 import java.util.List;
 import service.so.impl.SOPronadjiPrimerke;
 import service.so.impl.SOPronadjiRadnika;
 import service.so.impl.SOSacuvajClana;
 import service.so.impl.SOSacuvajKnjigu;
 import service.so.impl.SOSacuvajRadnika;
+import service.so.impl.SOSacuvajZaduzenje;
+import service.so.impl.SOVratiKnjigu;
 import service.so.impl.SOVratiSveAutore;
+import service.so.impl.SOVratiSveClanove;
+import service.so.impl.SOVratiZaduzenja;
 
 /**
  *
@@ -58,5 +63,22 @@ public class Controller {
 
     public Object vratiSveAutore() throws Exception {
         return (List<Autor>) new SOVratiSveAutore().execute(new Autor());
+    }
+
+    public Object vratiSveClanove() throws Exception{
+        return (List<Clan>) new SOVratiSveClanove().execute(new Clan());
+
+    }
+
+    public Object sacuvajZaduzenje(Zaduzenje zaduzenje)throws Exception {
+        return new SOSacuvajZaduzenje().execute(zaduzenje);
+    }
+
+    public Object vratiZaduzenja()throws Exception {
+        return (List<Zaduzenje>) new SOVratiZaduzenja().execute(new Zaduzenje());
+    }
+
+    public Object vratiKnjigu(Zaduzenje zaduzenje) throws Exception {
+        return  new SOVratiKnjigu().execute(zaduzenje);
     }
 }

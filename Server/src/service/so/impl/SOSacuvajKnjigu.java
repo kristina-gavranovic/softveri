@@ -29,15 +29,15 @@ public class SOSacuvajKnjigu  extends AbstractGenericOperation {
          
 
          for (Primerak primerak : ((Knjiga)entity).getPrimerci()) {
-             primerak.setId(((Knjiga)entity).getId());
+             primerak.setKnjigaId(((Knjiga)entity).getId());
              genericDao.save(primerak);
 
          }
             
         for (Autor autor : ((Knjiga)entity).getAutori()) {
             AutorKnjiga autorKnjiga=new AutorKnjiga();
-            autorKnjiga.setAutor(autor);
-            autorKnjiga.setKnjiga((Knjiga) entity);
+            autorKnjiga.setAutorID(autor.getId());
+            autorKnjiga.setKnjigaID(((Knjiga)entity).getId());
             
             genericDao.save(autorKnjiga);
 

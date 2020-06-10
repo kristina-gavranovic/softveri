@@ -8,6 +8,7 @@ package domain;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,40 +17,40 @@ import java.util.List;
  */
 public class AutorKnjiga implements  Serializable, IGeneralObject{
     private Integer id;
-    private Knjiga knjiga;
-    private Autor autor;
+    private Integer knjigaID;
+    private Integer autorID;
 
     public AutorKnjiga() {
     }
 
-    public AutorKnjiga(int id, Knjiga knjiga, Autor autor) {
+    public AutorKnjiga(Integer id, Integer knjigaID, Integer autorID) {
         this.id = id;
-        this.knjiga = knjiga;
-        this.autor = autor;
+        this.knjigaID = knjigaID;
+        this.autorID = autorID;
     }
 
-    public Autor getAutor() {
-        return autor;
+    public Integer getAutorID() {
+        return autorID;
     }
 
-    public void setAutor(Autor autor) {
-        this.autor = autor;
+    public void setAutorID(Integer autor) {
+        this.autorID = autor;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Knjiga getKnjiga() {
-        return knjiga;
+    public Integer getKnjigaID() {
+        return knjigaID;
     }
 
-    public void setKnjiga(Knjiga knjiga) {
-        this.knjiga = knjiga;
+    public void setKnjigaID(Integer knjigaID) {
+        this.knjigaID = knjigaID;
     }
 
     @Override
@@ -68,9 +69,9 @@ public class AutorKnjiga implements  Serializable, IGeneralObject{
                 .append("")
                 .append(this.id)
                 .append(", ")
-                .append(this.knjiga.getId())
+                .append(this.knjigaID)
                 .append(", ")
-                .append(this.autor.getId())
+                .append(this.autorID)
                 .append("")
                 .toString();
         
@@ -88,12 +89,33 @@ public class AutorKnjiga implements  Serializable, IGeneralObject{
 
     @Override
     public List<IGeneralObject> getList(ResultSet rs) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+         List<IGeneralObject> list = new ArrayList<>();
+        
+        while(rs.next()){
+           
+            AutorKnjiga autorKnjiga=new AutorKnjiga();
+            autorKnjiga.setId(rs.getInt("id"));
+            autorKnjiga.setAutorID(rs.getInt("idAutor"));
+            autorKnjiga.setKnjigaID(rs.getInt("idKnjiga"));
+
+           
+            list.add(autorKnjiga);
+            
+
+        }
+    return list;
+
+        }
 
     @Override
     public String getUpdateValues() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setId(int id) {
+              this.id = id;
+
     }
     
 }

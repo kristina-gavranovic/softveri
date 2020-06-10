@@ -19,6 +19,7 @@ import database.connection.ConnectionFactory;
  * @author Dudat
  */
 public class GenericDaoImpl implements GenericDao {
+
     @Override
     public IGeneralObject update(IGeneralObject generalObject) throws Exception {
         try {
@@ -33,6 +34,7 @@ public class GenericDaoImpl implements GenericDao {
                     .append(generalObject.getObjectCase())
                     .toString();
 
+            System.out.println(query);
             Statement statement = connection.createStatement();
             statement.executeUpdate(query);
 
@@ -44,7 +46,7 @@ public class GenericDaoImpl implements GenericDao {
             throw ex;
         }
     }
-    
+
     @Override
     public IGeneralObject save(IGeneralObject generalObject) throws Exception {
         try {
@@ -60,17 +62,18 @@ public class GenericDaoImpl implements GenericDao {
                     .append(generalObject.getInsertValues())
                     .append(")")
                     .toString();
-            
+
             System.out.println(query);
-            
-                    
+
             Statement statement = connection.createStatement();
             statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-            
+
             ResultSet rs = statement.getGeneratedKeys();
-            
-            if (rs.next()) generalObject.setId(rs.getInt(1));
-            
+
+            if (rs.next()) {
+                generalObject.setId(rs.getInt(1));
+            }
+
             statement.close();
             return generalObject;
         } catch (SQLException ex) {
@@ -83,29 +86,30 @@ public class GenericDaoImpl implements GenericDao {
     @Override
     public List<IGeneralObject> find(IGeneralObject ide) throws Exception {
         Connection connection = ConnectionFactory.getInstance().getConnection();
-        
+
         String query = "SELECT * FROM biblioteka." + ide.getTableName();
         Statement s = connection.createStatement();
-        
+
         return ide.getList(s.executeQuery(query));
     }
-    
+
     @Override
     public boolean delete(IGeneralObject object) throws Exception {
         Connection connection = ConnectionFactory.getInstance().getConnection();
-        
+
         String query = new StringBuilder()
                 .append("DELETE FROM biblioteka.")
                 .append(object.getTableName())
                 .append(" WHERE ")
                 .append(object.getObjectCase())
                 .toString();
-        
-        if(connection.createStatement().executeUpdate(query) > 0)
+
+        if (connection.createStatement().executeUpdate(query) > 0) {
             return true;
+        }
         throw new Exception(object.getTableName() + " cant be deleted");
     }
-    
+
     @Override
     public List<IGeneralObject> findBy(IGeneralObject object, String field, String value) throws Exception {
         Connection connection = ConnectionFactory.getInstance().getConnection();
@@ -115,7 +119,7 @@ public class GenericDaoImpl implements GenericDao {
                 .append(object.getTableName())
                 .append(" WHERE ").append(field).append(" = '").append(value).append("'")
                 .toString();
-        
+
         Statement s = connection.createStatement();
 
         return object.getList(s.executeQuery(query));
@@ -131,7 +135,7 @@ public class GenericDaoImpl implements GenericDao {
                 .append(" WHERE ")
                 .append(object.getObjectCase())
                 .toString();
-        
+
         System.out.println(query);
 
         Statement s = connection.createStatement();

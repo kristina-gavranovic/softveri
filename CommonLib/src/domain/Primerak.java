@@ -15,22 +15,29 @@ import java.util.List;
  *
  * @author krist
  */
-public class Primerak extends Knjiga implements Serializable, IGeneralObject {
+public class Primerak implements Serializable, IGeneralObject {
+
     private Integer rbr;
     private String izdavac;
     private String status;
     private int godinaIzdavanja;
+    private Integer knjigaId;
 
     public Primerak() {
-        super();
     }
 
-    public Primerak(int rbr, String izdavac, String status, int godinaIzdavanja,Integer id, String naslov, String zanr, String opis, String isbn) {
-        super(id, naslov, zanr, opis, isbn);
+    public Primerak(int rbr, String izdavac, String status, int godinaIzdavanja, Integer knjigaId) {
+        //super(id, naslov, zanr, opis, isbn);
         this.rbr = rbr;
         this.izdavac = izdavac;
         this.status = status;
         this.godinaIzdavanja = godinaIzdavanja;
+        this.knjigaId = knjigaId;
+    }
+
+    Primerak(Integer rbr) {
+        this.rbr = rbr;
+
     }
 
     public int getGodinaIzdavanja() {
@@ -44,63 +51,10 @@ public class Primerak extends Knjiga implements Serializable, IGeneralObject {
     public void setRbr(Integer rbr) {
         this.rbr = rbr;
     }
-    
-    
-    
+
     public Integer getRbr() {
         return rbr;
     }
-
-    public String getNaslov() {
-        return naslov;
-    }
-
-    public void setNaslov(String naslov) {
-        this.naslov = naslov;
-    }
-
-    public String getZanr() {
-        return zanr;
-    }
-
-    public void setZanr(String zanr) {
-        this.zanr = zanr;
-    }
-
-    public String getOpis() {
-        return opis;
-    }
-
-    public void setOpis(String opis) {
-        this.opis = opis;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public List<Primerak> getPrimerci() {
-        return primerci;
-    }
-
-    public void setPrimerci(List<Primerak> primerci) {
-        this.primerci = primerci;
-    }
-
-    public List<Autor> getAutori() {
-        return autori;
-    }
-
-    public void setAutori(List<Autor> autori) {
-        this.autori = autori;
-    }
-    
-
-    
 
     public String getIzdavac() {
         return izdavac;
@@ -118,18 +72,19 @@ public class Primerak extends Knjiga implements Serializable, IGeneralObject {
         this.status = status;
     }
 
-   
+    public Integer getKnjigaId() {
+        return knjigaId;
+    }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setKnjigaId(Integer knjigaId) {
+        this.knjigaId = knjigaId;
     }
 
     @Override
     public String toString() {
-        return super.getNaslov()+" "+this.getIzdavac();//To change body of generated methods, choose Tools | Templates.
+        return this.izdavac;
+        //  return super.getNaslov()+" "+this.getIzdavac();//To change body of generated methods, choose Tools | Templates.
     }
-    
-    
 
     @Override
     public String getTableName() {
@@ -145,9 +100,9 @@ public class Primerak extends Knjiga implements Serializable, IGeneralObject {
 
     @Override
     public String getInsertValues() {
-        
-        System.out.println(super.getId());
-         return new StringBuilder()
+
+        // System.out.println(super.getId());
+        return new StringBuilder()
                 .append("'")
                 .append(this.izdavac)
                 .append("', ")
@@ -155,9 +110,8 @@ public class Primerak extends Knjiga implements Serializable, IGeneralObject {
                 .append(", '")
                 .append(this.status)
                 .append("', ")
-                .append(super.getId())
+                .append(this.knjigaId)
                 .toString();
-
 
     }
 
@@ -167,47 +121,51 @@ public class Primerak extends Knjiga implements Serializable, IGeneralObject {
     }
 
     @Override
-    public String getObjectCase( ) {
-       return " ";
+    public String getObjectCase() {
+        return "rbr = " + this.getRbr();
 
     }
 
     @Override
     public List<IGeneralObject> getList(ResultSet rs) throws SQLException {
-            List<IGeneralObject> list = new ArrayList<>();
-        
-        while(rs.next()){
-           
-            Primerak primerak=new Primerak();
-            primerak.setRbr(rs.getInt("rbr"));
-//            primerak.setIsbn(rs.getString("isbn"));
-            primerak.setIzdavac(rs.getString("izdavac"));
-            //primerak.setNaslov(rs.getString("naslov"));
-            primerak.setStatus(rs.getString("status"));
-           // primerak.setZanr(rs.getString("zanr"));
-            //primerak.setOpis(rs.getString("opis"));
-            primerak.setGodinaIzdavanja(rs.getInt("godinaizdavanja"));
+        List<IGeneralObject> list = new ArrayList<>();
 
-           
+        while (rs.next()) {
+
+            Primerak primerak = new Primerak();
+            primerak.setRbr(rs.getInt("rbr"));
+            primerak.setIzdavac(rs.getString("izdavac"));
+            primerak.setStatus(rs.getString("status"));
+            primerak.setGodinaIzdavanja(rs.getInt("godinaizdavanja"));
+            primerak.setKnjigaId(rs.getInt("knjigaID"));
+
             list.add(primerak);
-            
 
         }
-    return list;
+        return list;
     }
-
-   
 
     @Override
     public String getUpdateValues() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (this.getStatus().equals("izdata")) 
+            return new StringBuilder()
+                    .append("status = '").append("slobodna").append("' ").toString();
+        
+            return new StringBuilder()
+                    .append("status = '").append("izdata").append("' ").toString();
+
+        }
+
+    
+
+    @Override
+    public void setId(int id) {
+        this.rbr = id;
     }
 
-    
+    @Override
+    public Integer getId() {
+        return rbr;
+    }
 
-   
-    
-    
-    
-    
 }

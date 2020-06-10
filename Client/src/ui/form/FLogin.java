@@ -137,7 +137,7 @@ public class FLogin extends javax.swing.JFrame {
             
            
             dispose();
-            new FMain().setVisible(true);
+            new FMain(ulogovani).setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"Ne postoji radnik sa unetim parametrima.");
         }

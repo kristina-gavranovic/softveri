@@ -44,6 +44,10 @@ public class Knjiga implements Serializable, IGeneralObject {
 
     }
 
+    Knjiga(Integer id) {
+        this.id = id;
+    }
+
     public List<Autor> getAutori() {
         return autori;
     }
@@ -64,7 +68,7 @@ public class Knjiga implements Serializable, IGeneralObject {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -163,9 +167,16 @@ public class Knjiga implements Serializable, IGeneralObject {
 
     @Override
     public String toString() {
-        return naslov+" "+isbn; //To change body of generated methods, choose Tools | Templates.
+        return this.naslov; 
     }
 
+    @Override
+    public void setId(int id) {
+        this.id=id;
+    }
+
+   
+    }
     
     
-}
+
