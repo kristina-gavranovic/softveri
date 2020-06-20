@@ -10,5 +10,5 @@ package ui.form;
  * @author Kristina
  */
 public enum ViewMode {
-    PREVIEW, EDIT, DELETE
+    PREVIEW, EDIT
 }

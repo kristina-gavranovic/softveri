@@ -27,12 +27,18 @@ public class Primerak implements Serializable, IGeneralObject {
     }
 
     public Primerak(int rbr, String izdavac, String status, int godinaIzdavanja, Integer knjigaId) {
-        //super(id, naslov, zanr, opis, isbn);
         this.rbr = rbr;
         this.izdavac = izdavac;
         this.status = status;
         this.godinaIzdavanja = godinaIzdavanja;
         this.knjigaId = knjigaId;
+    }
+      public Primerak( String izdavac, int godinaIzdavanja) {
+        this.rbr = -1;
+        this.izdavac = izdavac;
+        this.status = "slobodna";
+        this.godinaIzdavanja = godinaIzdavanja;
+       
     }
 
     Primerak(Integer rbr) {

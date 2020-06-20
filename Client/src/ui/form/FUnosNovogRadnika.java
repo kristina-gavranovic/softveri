@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import ui.form_validation.RadnikFormValidation;
 
 /**
  *
@@ -157,14 +158,15 @@ public class FUnosNovogRadnika extends javax.swing.JDialog {
     private void btnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacuvajActionPerformed
         
         try {
-            Radnik noviRadnik=new Radnik(-1, txtIme.getText(), txtPrezime.getText(), txtUsername.getText().trim(), txtPassword.getText().trim(), StatusRadnika.valueOf(cmbStatus.getSelectedItem().toString()));
-           
-            System.out.println("Nije enum problem");
+          
+            
+            Radnik noviRadnik=new Radnik( txtIme.getText(), txtPrezime.getText(), txtUsername.getText().trim(), txtPassword.getText().trim(), StatusRadnika.valueOf(cmbStatus.getSelectedItem().toString()));
+            RadnikFormValidation.validate(noviRadnik);
             noviRadnik=Controller.getInstance().sacuvajRadnika(noviRadnik);
             JOptionPane.showMessageDialog(this, "Uspesno su uneti podaci o radniku. ");
             
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Sistem ne moze da sacuva podatke o novom radniku");
+            JOptionPane.showMessageDialog(this, ex.getMessage());
             Logger.getLogger(FUnosNovogRadnika.class.getName()).log(Level.SEVERE, null, ex);
         }
 

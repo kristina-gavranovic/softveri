@@ -37,6 +37,14 @@ public class Clan implements Serializable, IGeneralObject {
         this.zaduzenja = new ArrayList<>();
     }
 
+    public Clan(String ime, String prezime, String jmbg, String telefon) {
+        this.ime = ime;
+        this.prezime = prezime;
+        this.jmbg = jmbg;
+        this.telefon = telefon;
+        this.zaduzenja = new ArrayList<>();
+    }
+
     public Clan(Integer id) {
         this.id = id;
 
@@ -143,17 +151,17 @@ public class Clan implements Serializable, IGeneralObject {
 
     @Override
     public IGeneralObject getObject(ResultSet rs) throws SQLException {
-        if(rs.next()){
-        Clan clan = new Clan();
-        clan.setId(rs.getInt("id"));
-        clan.setIme(rs.getString("ime"));
-        clan.setPrezime(rs.getString("prezime"));
-        clan.setJmbg(rs.getString("jmbg"));
-        clan.setTelefon(rs.getString("telefon"));
+        if (rs.next()) {
+            Clan clan = new Clan();
+            clan.setId(rs.getInt("id"));
+            clan.setIme(rs.getString("ime"));
+            clan.setPrezime(rs.getString("prezime"));
+            clan.setJmbg(rs.getString("jmbg"));
+            clan.setTelefon(rs.getString("telefon"));
 
-        return clan;}
-             throw new SQLException("No clan in result set");
-
+            return clan;
+        }
+        throw new SQLException("No clan in result set");
 
     }
 

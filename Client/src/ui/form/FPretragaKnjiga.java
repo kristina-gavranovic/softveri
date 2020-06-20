@@ -58,7 +58,7 @@ public class FPretragaKnjiga extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Pretraga knjiga", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 13), new java.awt.Color(204, 0, 204))); // NOI18N
 
-        jLabel1.setText("Unesite deo naslova knjige za pretragu:");
+        jLabel1.setText("Unesite deo naslova ili imena autora :");
 
         btnPronadji.setText("Pronadji");
         btnPronadji.addActionListener(new java.awt.event.ActionListener() {
@@ -257,9 +257,7 @@ public class FPretragaKnjiga extends javax.swing.JFrame {
 
                 break;
 
-            case DELETE:
-
-                break;
+            
         }
 
     }

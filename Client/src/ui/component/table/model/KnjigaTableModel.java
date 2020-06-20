@@ -41,19 +41,21 @@ public class KnjigaTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Knjiga knjiga = knjige.get(rowIndex);
-        
-        //{"Naziv", "Autor/i", "Zanr", "ISBN", "Izdavac", "Godina izdavanja", "Satus"
-        switch (columnIndex) {
-            case 0: return knjiga.getNaslov();
-            
-            case 1:return autoriToString((ArrayList<Autor>) knjiga.getAutori());
-            case 2: return knjiga.getIsbn();
-            case 3: return knjiga.getOpis();
-            
 
-              
-            default: return  "Greska";
-                
+        switch (columnIndex) {
+            case 0:
+                return knjiga.getNaslov();
+
+            case 1:
+                return knjiga.autoriToString((ArrayList<Autor>) knjiga.getAutori());
+            case 2:
+                return knjiga.getIsbn();
+            case 3:
+                return knjiga.getOpis();
+
+            default:
+                return "Greska";
+
         }
     }
 
@@ -65,16 +67,19 @@ public class KnjigaTableModel extends AbstractTableModel {
         this.knjige = knjige;
     }
 
-    public String autoriToString(ArrayList<Autor> list){
-        String autori="";
-        
-        for (Autor a : list) 
-            autori+=a.getIme()+" "+a.getPrezime()+", ";
-            
-        return autori.substring(0, autori.length()-2);
-    
-    }
-    
-    
+//    public String autoriToString(ArrayList<Autor> list) {
+//        String autori = "";
+//        Autor last = list.get(list.size() - 1);
+//
+//        for (Autor a : list) {
+//            if (last.equals(a)) {
+//                autori += a.getIme() + " " + a.getPrezime();
+//            } else {
+//                autori += a.getIme() + " " + a.getPrezime() + ", ";
+//            }
+//        }
+//        return autori;
+//
+//    }
 
 }

@@ -162,8 +162,7 @@ public class Knjiga implements Serializable, IGeneralObject {
 
     @Override
     public String getUpdateValues() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        throw new UnsupportedOperationException("Not supported yet."); }
 
     @Override
     public String toString() {
@@ -175,6 +174,27 @@ public class Knjiga implements Serializable, IGeneralObject {
         this.id=id;
     }
 
+    public  String autoriToString(ArrayList<Autor> list) {
+        String autori = "";
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //DODATI MINUS JEDAN ZA POSLEDNJU U BAZI JE FALIO SIG NEKI AUTOR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+       if(list.size()!=0){
+        
+        Autor last = list.get(list.size()-1 ); 
+       
+
+
+        for (Autor a : list) {
+            if (last.equals(a)) {
+                autori += a.getIme() + " " + a.getPrezime();
+            } else {
+                autori += a.getIme() + " " + a.getPrezime() + ", ";
+            }
+        }
+        return autori;}
+       else return "Nepoznat autor";
+
+    }
    
     }
     

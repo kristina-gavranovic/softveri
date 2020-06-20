@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import ui.form_validation.LoginFormValidation;
 
 /**
  *
@@ -129,23 +130,25 @@ public class FLogin extends javax.swing.JFrame {
 
     private void jbtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLoginActionPerformed
         try {
-            // validate(jtxtUsername, jtxtPassword);
-            
-            Radnik ulogovani=Controller.getInstance().pronadjiRadnika(jtxtUsername.getText().trim(), String.valueOf(jtxtPassword.getPassword()));
 
-            JOptionPane.showMessageDialog(this, "Uspesna prijava na sistem.\n Ulogovani radnik je: "+ulogovani.toString());
-            
-           
+            Radnik radnik = new Radnik(jtxtUsername.getText().trim(), String.valueOf(jtxtPassword.getPassword()));
+            LoginFormValidation.validate(radnik);
+            Radnik ulogovani = Controller.getInstance().pronadjiRadnika(radnik);
+
+            JOptionPane.showMessageDialog(this, "Uspesna prijava na sistem.\n Ulogovani radnik je: " + ulogovani.toString());
+
             dispose();
             new FMain(ulogovani).setVisible(true);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Ne postoji radnik sa unetim parametrima.");
+            JOptionPane.showMessageDialog(this, e.getMessage());
+
+          //  JOptionPane.showMessageDialog(this, "Ne postoji radnik sa unetim parametrima.");
         }
-          
+
 
     }//GEN-LAST:event_jbtnLoginActionPerformed
 
- 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jbtnLogin;
     private javax.swing.JLabel jlabPassword;
@@ -159,8 +162,5 @@ public class FLogin extends javax.swing.JFrame {
     private void prepareForm() {
         setLocationRelativeTo(null);
     }
-
-   
-    
 
 }

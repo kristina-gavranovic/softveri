@@ -47,12 +47,10 @@ public class Controller {
         return instance;
     }
 
-    public Radnik pronadjiRadnika(String username, String password) throws IOException, ClassNotFoundException, Exception {
+    public Radnik pronadjiRadnika(Radnik radnik) throws IOException, ClassNotFoundException, Exception {
         RequestObject requestObject = new RequestObject();
         requestObject.setOperation(Operation.OPERATION_LOGIN);
-        Radnik radnik = new Radnik();
-        radnik.setUsername(username);
-        radnik.setPassword(password);
+       
 
         requestObject.setData(radnik);
 
@@ -65,7 +63,6 @@ public class Controller {
             return (Radnik) responseObject.getData();
         }
         if (responseObject.getStatus() == ResponseStatus.ERROR) {
-            //System.out.println("bacio excp u controlleru na klijetu");
             throw new Exception(responseObject.getErrorMessage() + "");
         }
         return null;
@@ -132,6 +129,9 @@ public class Controller {
 
         for (Knjiga knjiga : list) {
             if (knjiga.getNaslov().toLowerCase().contains(pretraga.toLowerCase())) {
+                listZadovoljavaUslov.add(knjiga);
+            }
+            else if (knjiga.autoriToString((ArrayList<Autor>) knjiga.getAutori()).toLowerCase().contains(pretraga.toLowerCase())) {
                 listZadovoljavaUslov.add(knjiga);
             }
 

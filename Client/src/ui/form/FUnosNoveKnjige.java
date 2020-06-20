@@ -8,6 +8,7 @@ package ui.form;
 import controller.Controller;
 import domain.Autor;
 import domain.Knjiga;
+import domain.Primerak;
 import util.ZanrKnjige;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -15,6 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import ui.component.table.model.AutorTableModel;
 import ui.component.table.model.PrimerakTableModel;
+import ui.form_validation.KnjigaFormValidation;
 
 /**
  *
@@ -312,7 +314,15 @@ public class FUnosNoveKnjige extends javax.swing.JDialog {
     private void btnDodajPrimerakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajPrimerakActionPerformed
         // TODO add your handling code here:
         PrimerakTableModel model = (PrimerakTableModel) tabelaPrimeraka.getModel();
-        model.dodajPrimerak(txtIzdavac.getText(), Integer.valueOf(txtGodinaIzdavanja.getText()));
+        Primerak primerak = new Primerak(txtIzdavac.getText().trim(), Integer.valueOf(txtGodinaIzdavanja.getText().trim()));
+        try {
+            KnjigaFormValidation.validatePrimerak(primerak);
+            model.dodajPrimerak(txtIzdavac.getText(), Integer.valueOf(txtGodinaIzdavanja.getText()));
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+            Logger.getLogger(FUnosNoveKnjige.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnDodajPrimerakActionPerformed
 
     private void btnUkloniPrimerakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUkloniPrimerakActionPerformed
@@ -340,6 +350,7 @@ public class FUnosNoveKnjige extends javax.swing.JDialog {
         knjigaSaForme.setZanr(cmbZanr.getSelectedItem().toString());
 
         try {
+            KnjigaFormValidation.validateKnjiga(knjigaSaForme);
             Controller.getInstance().sacuvajKnjigu(knjigaSaForme);
             JOptionPane.showMessageDialog(this, "Uspesno su uneti podaci o novoj knjizi.");
         } catch (Exception ex) {
