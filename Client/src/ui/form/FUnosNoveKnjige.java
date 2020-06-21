@@ -314,12 +314,17 @@ public class FUnosNoveKnjige extends javax.swing.JDialog {
     private void btnDodajPrimerakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajPrimerakActionPerformed
         // TODO add your handling code here:
         PrimerakTableModel model = (PrimerakTableModel) tabelaPrimeraka.getModel();
-        Primerak primerak = new Primerak(txtIzdavac.getText().trim(), Integer.valueOf(txtGodinaIzdavanja.getText().trim()));
         try {
-            KnjigaFormValidation.validatePrimerak(primerak);
-            model.dodajPrimerak(txtIzdavac.getText(), Integer.valueOf(txtGodinaIzdavanja.getText()));
+            Primerak primerak = new Primerak(txtIzdavac.getText().trim(), Integer.valueOf(txtGodinaIzdavanja.getText().trim()));
 
-        } catch (Exception ex) {
+            KnjigaFormValidation.validatePrimerak(primerak);
+            model.dodajPrimerak(primerak);
+
+        }catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this,"Unesite godinu izdavnja kao broj!");
+            Logger.getLogger(FUnosNoveKnjige.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
             Logger.getLogger(FUnosNoveKnjige.class.getName()).log(Level.SEVERE, null, ex);
         }

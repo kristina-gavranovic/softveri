@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package service.so;
 
 import dao.GenericDao;
@@ -10,10 +6,7 @@ import dao.impl.GenericDaoImpl;
 import java.sql.SQLException;
 import database.connection.ConnectionFactory;
 
-/**
- *
- * @author 
- */
+
 public abstract class AbstractGenericOperation {
 
     protected GenericDao genericDao;
@@ -32,7 +25,9 @@ public abstract class AbstractGenericOperation {
         } catch (Exception ex) {
             ex.printStackTrace();
             rollbackTransaction();
-            throw new Exception("Sistem ne moze da izvrsi operaciju");
+            throw new Exception(ex.getMessage());
+         //   throw new Exception("Sistem ne moze da izvrsi operaciju");
+         //Ako bude morala da bude jednolicna poruka 
         }
     }
 

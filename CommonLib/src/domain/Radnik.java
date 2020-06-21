@@ -171,9 +171,9 @@ public class Radnik implements Serializable, IGeneralObject {
             radnik.setStatus(StatusRadnika.getById(rs.getInt("status")));
             return radnik;
         }
-        return null;
+        //return null;
         //sklonjeno da baca EXCP jer je blokirao formu 
-        // throw new SQLException("Wrong username ili pass");
+         throw new SQLException("Pogresan password ili username!");
 
     }
 

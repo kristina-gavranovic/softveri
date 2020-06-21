@@ -92,9 +92,6 @@
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtxtUsernameActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jlabPassword">
       <Properties>

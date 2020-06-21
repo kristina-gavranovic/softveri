@@ -66,12 +66,7 @@ public class PrimerakTableModel extends AbstractTableModel {
         }
     }
 
-    public void dodajPrimerak(String izdavac, int godinaIzdavanja) {
-        Primerak primerak = new Primerak();
-        primerak.setGodinaIzdavanja(godinaIzdavanja);
-        primerak.setIzdavac(izdavac);
-        primerak.setStatus("slobodna");
-        primerak.setRbr(-1);
+    public void dodajPrimerak(Primerak primerak) {
         knjiga.getPrimerci().add(primerak);
         fireTableDataChanged();
 

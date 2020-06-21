@@ -3,9 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Podaci%20sa%20kompa/PS%20Biblioteka/Biblioteka/Client/src/ui/form_validation/InvoiceItemFormValidation.java</file>
-            <file>file:/C:/Podaci%20sa%20kompa/PS%20Biblioteka/Biblioteka/Client/src/ui/form_validation/ClanFormValidation.java</file>
-            <file>file:/C:/Podaci%20sa%20kompa/PS%20Biblioteka/Biblioteka/Client/src/ui/form_validation/LoginFormValidation.java</file>
+            <file>file:/C:/Podaci%20sa%20kompa/PS%20Biblioteka/Biblioteka/Client/src/ui/form/FLogin.java</file>
+            <file>file:/C:/Podaci%20sa%20kompa/PS%20Biblioteka/Biblioteka/Client/src/controller/Controller.java</file>
         </group>
     </open-files>
 </project-private>

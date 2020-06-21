@@ -1,6 +1,7 @@
 package thread;
 
 import controller.Controller;
+import database.connection.ConnectionFactory;
 import domain.Clan;
 import domain.Knjiga;
 import domain.Radnik;
@@ -18,23 +19,17 @@ import transfer.ResponseObject;
 import util.Operation;
 import util.ResponseStatus;
 
-/**
- *
- * @author
- */
 public class ClientThread extends Thread {
 
     private final Socket socket;
     private final ObjectInputStream objectInputStream;
     private final ObjectOutputStream objectOutputStream;
-
     private Radnik ulogovaniRadnik;
 
     public ClientThread(Socket socket) throws IOException {
         this.socket = socket;
         objectInputStream = new ObjectInputStream(socket.getInputStream());
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-
     }
 
     @Override
@@ -70,19 +65,15 @@ public class ClientThread extends Thread {
 
     private ResponseObject handleRequest(RequestObject requestObject) throws SQLException, Exception {
         int operation = requestObject.getOperation();
+         try {
         Object data = null;
         String msg = null;
         switch (operation) {
             case Operation.OPERATION_LOGIN:
-                try {
                     data = Controller.getInstance().pronadjiRadnika((Radnik) requestObject.getData());
                     msg = "Uspesno sacuvan radnik";
                     break;
-                } catch (Exception e) {
-                    //System.out.println("Usao u catach blok u clientThread na serveru");
-                    return new ResponseObject(ResponseStatus.ERROR, null, e.getMessage());
-                }
-
+                
             case Operation.OPERATION_SVI_AUTORI:
                 data = Controller.getInstance().vratiSveAutore();
                 break;
@@ -102,11 +93,11 @@ public class ClientThread extends Thread {
 
             case Operation.OPERATION_PRETRAGA_KNJIGA:
                 data = Controller.getInstance().pronadjiPrimerke();
-                if (data == null) {
-                    return new ResponseObject(ResponseStatus.ERROR, null, "Nema takvih knjiga");
-                }
+//                if (data == null) {
+//                    return new ResponseObject(ResponseStatus.ERROR, null, "Nema takvih knjiga");
+//                }
                 break;
-
+//**Radnik ne baca exc u getObjCase, nego vraca null ako ga ne nadje
             case Operation.OPERATION_SVI_CLANOVI:
                 data = Controller.getInstance().vratiSveClanove();
                 break;
@@ -130,6 +121,11 @@ public class ClientThread extends Thread {
 
         }
         return new ResponseObject(ResponseStatus.SUCCESS, data, msg);
+          } catch (Exception ex) {
+            ConnectionFactory.getInstance().getConnection().rollback();
+            Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseObject(ResponseStatus.ERROR, ex.getMessage(), ex.getMessage());
+        }
     }
 
     public Socket getSocket() {

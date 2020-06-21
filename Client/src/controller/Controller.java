@@ -8,8 +8,6 @@ package controller;
 import domain.Autor;
 import domain.Clan;
 import domain.Knjiga;
-import domain.Primerak;
-
 import domain.Radnik;
 import domain.Zaduzenje;
 import java.io.IOException;
@@ -50,28 +48,24 @@ public class Controller {
     public Radnik pronadjiRadnika(Radnik radnik) throws IOException, ClassNotFoundException, Exception {
         RequestObject requestObject = new RequestObject();
         requestObject.setOperation(Operation.OPERATION_LOGIN);
-       
-
         requestObject.setData(radnik);
-
         objectOutputStream.writeObject(requestObject);
         objectOutputStream.flush();
-
         ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
 
         if (responseObject.getStatus() == ResponseStatus.SUCCESS) {
             return (Radnik) responseObject.getData();
+        } else {
+            throw new Exception(responseObject.getErrorMessage());
         }
-        if (responseObject.getStatus() == ResponseStatus.ERROR) {
-            throw new Exception(responseObject.getErrorMessage() + "");
-        }
-        return null;
+        
     }
 
     public Radnik sacuvajRadnika(Radnik noviRadnik) throws Exception {
         RequestObject requestObject = new RequestObject(Operation.OPERATION_SACUVAJ_RADNIKA, noviRadnik);
         objectOutputStream.writeObject(requestObject);
         ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
+
         if (responseObject.getStatus() == ResponseStatus.SUCCESS) {
             return (Radnik) responseObject.getData();
         }
@@ -81,12 +75,11 @@ public class Controller {
     public List<Autor> vratiSveAutore() throws Exception {
         RequestObject requestObject = new RequestObject();
         requestObject.setOperation(Operation.OPERATION_SVI_AUTORI);
-
         objectOutputStream.writeObject(requestObject);
         objectOutputStream.flush();
         ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
-
         ResponseStatus status = responseObject.getStatus();
+
         if (status == ResponseStatus.SUCCESS) {
             return (List<Autor>) responseObject.getData();
         } else {
@@ -96,10 +89,10 @@ public class Controller {
     }
 
     public void sacuvajKnjigu(Knjiga knjiga) throws Exception {
-
         RequestObject requestObject = new RequestObject(Operation.OPERATION_SACUVAJ_KNJIGU, knjiga);
         objectOutputStream.writeObject(requestObject);
         ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
+
         if (responseObject.getStatus() == ResponseStatus.ERROR) {
             throw new Exception(responseObject.getErrorMessage());
         }
@@ -110,6 +103,7 @@ public class Controller {
         RequestObject requestObject = new RequestObject(Operation.OPERATION_SACUVAJ_CLANA, clan);
         objectOutputStream.writeObject(requestObject);
         ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
+
         if (responseObject.getStatus() == ResponseStatus.ERROR) {
             throw new Exception(responseObject.getErrorMessage());
         }
@@ -120,6 +114,7 @@ public class Controller {
         RequestObject requestObject = new RequestObject(Operation.OPERATION_PRETRAGA_KNJIGA, pretraga);
         objectOutputStream.writeObject(requestObject);
         ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
+
         if (responseObject.getStatus() == ResponseStatus.ERROR) {
             throw new Exception(responseObject.getErrorMessage());
         }
@@ -130,8 +125,7 @@ public class Controller {
         for (Knjiga knjiga : list) {
             if (knjiga.getNaslov().toLowerCase().contains(pretraga.toLowerCase())) {
                 listZadovoljavaUslov.add(knjiga);
-            }
-            else if (knjiga.autoriToString((ArrayList<Autor>) knjiga.getAutori()).toLowerCase().contains(pretraga.toLowerCase())) {
+            } else if (knjiga.autoriToString((ArrayList<Autor>) knjiga.getAutori()).toLowerCase().contains(pretraga.toLowerCase())) {
                 listZadovoljavaUslov.add(knjiga);
             }
 
@@ -143,12 +137,11 @@ public class Controller {
     public ArrayList<Clan> vratiSveClanove() throws Exception {
         RequestObject requestObject = new RequestObject();
         requestObject.setOperation(Operation.OPERATION_SVI_CLANOVI);
-
         objectOutputStream.writeObject(requestObject);
         objectOutputStream.flush();
         ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
-
         ResponseStatus status = responseObject.getStatus();
+
         if (status == ResponseStatus.SUCCESS) {
             return (ArrayList<Clan>) responseObject.getData();
         } else {
@@ -170,12 +163,11 @@ public class Controller {
     public ArrayList<Zaduzenje> vratiZaduzenjaClana(Integer clanID) throws Exception {
         RequestObject requestObject = new RequestObject();
         requestObject.setOperation(Operation.OPERATION_SVA_ZADUZENJA);
-
         objectOutputStream.writeObject(requestObject);
         objectOutputStream.flush();
         ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
-
         ResponseStatus status = responseObject.getStatus();
+
         if (status == ResponseStatus.SUCCESS) {
             ArrayList<Zaduzenje> lista = (ArrayList<Zaduzenje>) responseObject.getData();
             if (clanID != -1) {
@@ -196,7 +188,7 @@ public class Controller {
     }
 
     public void vratiKnjigu(Zaduzenje zaduzenje) throws Exception {
-          RequestObject requestObject = new RequestObject(Operation.OPERATION_VRATI_KNJIGU, zaduzenje);
+        RequestObject requestObject = new RequestObject(Operation.OPERATION_VRATI_KNJIGU, zaduzenje);
         objectOutputStream.writeObject(requestObject);
         ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
         if (responseObject.getStatus() == ResponseStatus.ERROR) {
@@ -205,18 +197,18 @@ public class Controller {
     }
 
     public ArrayList<Knjiga> vratiSveKnjige() throws Exception {
-    RequestObject requestObject = new RequestObject();
+        RequestObject requestObject = new RequestObject();
         requestObject.setOperation(Operation.OPERATION_SVE_KNJIGE);
-
         objectOutputStream.writeObject(requestObject);
         objectOutputStream.flush();
         ResponseObject responseObject = (ResponseObject) objectInputStream.readObject();
-
         ResponseStatus status = responseObject.getStatus();
+
         if (status == ResponseStatus.SUCCESS) {
             return (ArrayList<Knjiga>) responseObject.getData();
         } else {
             throw new Exception(responseObject.getErrorMessage());
-        }    }
+        }
+    }
 
 }

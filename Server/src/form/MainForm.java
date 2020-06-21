@@ -41,6 +41,7 @@ public class MainForm extends javax.swing.JFrame {
     private void initComponents() {
 
         btnPokreniServer = new javax.swing.JButton();
+        btnZaustaviServer = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuServer = new javax.swing.JMenu();
         jMenuItemServerStart = new javax.swing.JMenuItem();
@@ -56,6 +57,13 @@ public class MainForm extends javax.swing.JFrame {
         btnPokreniServer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPokreniServerActionPerformed(evt);
+            }
+        });
+
+        btnZaustaviServer.setText("Zaustavi server");
+        btnZaustaviServer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnZaustaviServerActionPerformed(evt);
             }
         });
 
@@ -104,16 +112,20 @@ public class MainForm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(122, 122, 122)
-                .addComponent(btnPokreniServer, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(164, Short.MAX_VALUE))
+                .addGap(62, 62, 62)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnPokreniServer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnZaustaviServer, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE))
+                .addContainerGap(116, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
+                .addGap(47, 47, 47)
                 .addComponent(btnPokreniServer)
-                .addContainerGap(210, Short.MAX_VALUE))
+                .addGap(45, 45, 45)
+                .addComponent(btnZaustaviServer)
+                .addContainerGap(137, Short.MAX_VALUE))
         );
 
         pack();
@@ -178,9 +190,23 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnPokreniServerActionPerformed
 
+    private void btnZaustaviServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZaustaviServerActionPerformed
+        // TODO add your handling code here:
+         try {
+            if (theServerThread.getServerSocket() != null && theServerThread.getServerSocket().isBound()) {
+                theServerThread.getServerSocket().close();
+                jMenuItemServerStart.setEnabled(true);
+                jMenuItemServerStop.setEnabled(false);
+            }
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_btnZaustaviServerActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPokreniServer;
+    private javax.swing.JButton btnZaustaviServer;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuConfiguration;
     private javax.swing.JMenuItem jMenuItemCurrentUser;
