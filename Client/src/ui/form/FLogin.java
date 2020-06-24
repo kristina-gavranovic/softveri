@@ -107,12 +107,14 @@ public class FLogin extends javax.swing.JFrame {
             Radnik radnik = new Radnik(jtxtUsername.getText().trim(), String.valueOf(jtxtPassword.getPassword()).trim());
             LoginFormValidation.validate(radnik);
             radnik = Controller.getInstance().pronadjiRadnika(radnik);
-            JOptionPane.showMessageDialog(this, "Uspesna prijava na sistem.\n Ulogovani radnik je: " + radnik.toString());
+            JOptionPane.showMessageDialog(this, "Uspesna prijava na sistem! \n Ulogovani radnik je: " + radnik.toString());
             dispose();
             new FMain(radnik).setVisible(true);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            
+            JOptionPane.showConfirmDialog(this, "Sistem ne moze da pronadje knjigu.", "Greska", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+           // JOptionPane.showMessageDialog(this, e.getMessage());
 
             //  JOptionPane.showMessageDialog(this, "Ne postoji radnik sa unetim parametrima.");
         }

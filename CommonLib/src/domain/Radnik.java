@@ -173,7 +173,7 @@ public class Radnik implements Serializable, IGeneralObject {
         }
         //return null;
         //sklonjeno da baca EXCP jer je blokirao formu 
-         throw new SQLException("Pogresan password ili username!");
+         throw new SQLException("Sistem ne moze da pronadje bibliotekara po zadatim vrednostima!");
 
     }
 

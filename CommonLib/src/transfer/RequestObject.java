@@ -7,11 +7,8 @@ package transfer;
 
 import java.io.Serializable;
 
-/**
- *
- * @author student1
- */
-public class RequestObject implements Serializable{
+public class RequestObject implements Serializable {
+
     private static final long serialVersionUID = 1209201909470000l;
     private int operation;
     private Object data;
@@ -23,9 +20,7 @@ public class RequestObject implements Serializable{
         this.operation = operation;
         this.data = data;
     }
-    
-    
-    
+
     public int getOperation() {
         return operation;
     }
@@ -41,6 +36,5 @@ public class RequestObject implements Serializable{
     public void setData(Object data) {
         this.data = data;
     }
-    
-    
+
 }

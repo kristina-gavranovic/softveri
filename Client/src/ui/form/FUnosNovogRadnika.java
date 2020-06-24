@@ -163,10 +163,10 @@ public class FUnosNovogRadnika extends javax.swing.JDialog {
             Radnik noviRadnik=new Radnik( txtIme.getText(), txtPrezime.getText(), txtUsername.getText().trim(), txtPassword.getText().trim(), StatusRadnika.valueOf(cmbStatus.getSelectedItem().toString()));
             RadnikFormValidation.validate(noviRadnik);
             noviRadnik=Controller.getInstance().sacuvajRadnika(noviRadnik);
-            JOptionPane.showMessageDialog(this, "Uspesno su uneti podaci o radniku. ");
+            JOptionPane.showMessageDialog(this, "Uspesno su uneti podaci o novom radniku. ");
             
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
+            JOptionPane.showConfirmDialog(this, ex.getMessage(),"Greska" , ERROR);
             Logger.getLogger(FUnosNovogRadnika.class.getName()).log(Level.SEVERE, null, ex);
         }
 

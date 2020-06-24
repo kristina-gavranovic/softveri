@@ -116,7 +116,7 @@ public class Knjiga implements Serializable, IGeneralObject {
 
     @Override
     public String getInsertValues() {
-           return new StringBuilder()
+        return new StringBuilder()
                 .append("'")
                 .append(this.naslov)
                 .append("', '")
@@ -141,10 +141,10 @@ public class Knjiga implements Serializable, IGeneralObject {
 
     @Override
     public List<IGeneralObject> getList(ResultSet rs) throws SQLException {
-         List<IGeneralObject> list = new ArrayList<>();
-        
-        while(rs.next()){
-           
+        List<IGeneralObject> list = new ArrayList<>();
+
+        while (rs.next()) {
+
             Knjiga knjiga = new Knjiga();
             knjiga.setId(rs.getInt("id"));
             knjiga.setIsbn(rs.getString("isbn"));
@@ -152,9 +152,7 @@ public class Knjiga implements Serializable, IGeneralObject {
             knjiga.setZanr(rs.getString("zanr"));
             knjiga.setOpis(rs.getString("opis"));
 
-           
             list.add(knjiga);
-            
 
         }
         return list;
@@ -162,41 +160,37 @@ public class Knjiga implements Serializable, IGeneralObject {
 
     @Override
     public String getUpdateValues() {
-        throw new UnsupportedOperationException("Not supported yet."); }
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
     @Override
     public String toString() {
-        return this.naslov; 
+        return this.naslov;
     }
 
     @Override
     public void setId(int id) {
-        this.id=id;
+        this.id = id;
     }
 
-    public  String autoriToString(ArrayList<Autor> list) {
+    public String autoriToString(ArrayList<Autor> list) {
         String autori = "";
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //DODATI MINUS JEDAN ZA POSLEDNJU U BAZI JE FALIO SIG NEKI AUTOR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-       if(list.size()!=0){
-        
-        Autor last = list.get(list.size()-1 ); 
-       
+        if (!list.isEmpty()) {
 
+            Autor last = list.get(list.size() - 1);
 
-        for (Autor a : list) {
-            if (last.equals(a)) {
-                autori += a.getIme() + " " + a.getPrezime();
-            } else {
-                autori += a.getIme() + " " + a.getPrezime() + ", ";
+            for (Autor a : list) {
+                if (last.equals(a)) {
+                    autori += a.getIme() + " " + a.getPrezime();
+                } else {
+                    autori += a.getIme() + " " + a.getPrezime() + ", ";
+                }
             }
+            return autori;
+        } else {
+            return "Nepoznat autor";
         }
-        return autori;}
-       else return "Nepoznat autor";
 
     }
-   
-    }
-    
-    
 
+}

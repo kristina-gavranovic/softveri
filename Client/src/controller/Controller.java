@@ -130,7 +130,7 @@ public class Controller {
             }
 
         }
-
+        if(listZadovoljavaUslov.isEmpty()) throw  new Exception("Sistem ne moze da pronadje knjige!");
         return listZadovoljavaUslov;
     }
 

@@ -67,19 +67,4 @@ public class KnjigaTableModel extends AbstractTableModel {
         this.knjige = knjige;
     }
 
-//    public String autoriToString(ArrayList<Autor> list) {
-//        String autori = "";
-//        Autor last = list.get(list.size() - 1);
-//
-//        for (Autor a : list) {
-//            if (last.equals(a)) {
-//                autori += a.getIme() + " " + a.getPrezime();
-//            } else {
-//                autori += a.getIme() + " " + a.getPrezime() + ", ";
-//            }
-//        }
-//        return autori;
-//
-//    }
-
 }

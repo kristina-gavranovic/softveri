@@ -131,7 +131,7 @@ public class FUnosNovogClana extends javax.swing.JDialog {
         try {
             ClanFormValidation.validate(clan);
             Controller.getInstance().sacuvajClana(clan);
-            JOptionPane.showMessageDialog(this, "Uspesno su uneti podaci o novom clanu");
+            JOptionPane.showMessageDialog(this, "Uspesno su uneti podaci o novom clanu!");
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());

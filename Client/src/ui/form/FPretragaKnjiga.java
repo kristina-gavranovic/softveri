@@ -32,6 +32,7 @@ public class FPretragaKnjiga extends javax.swing.JFrame {
         // super(parent, modal);
         initComponents();
         prepareForm(ulogovaniRadnik, mode);
+        this.setTitle("Pretraga knjiga");
         setLocationRelativeTo(null);
 
     }
@@ -53,6 +54,7 @@ public class FPretragaKnjiga extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaPretraga = new javax.swing.JTable();
         btnZaduzi = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -116,6 +118,13 @@ public class FPretragaKnjiga extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Prikazi");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -124,7 +133,9 @@ public class FPretragaKnjiga extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 9, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addGap(30, 30, 30)
                 .addComponent(btnZaduzi, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -132,9 +143,11 @@ public class FPretragaKnjiga extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnZaduzi)
-                .addGap(0, 24, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnZaduzi)
+                    .addComponent(jButton1))
+                .addGap(0, 30, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -168,6 +181,9 @@ public class FPretragaKnjiga extends javax.swing.JFrame {
             model.fireTableDataChanged();
 
         } catch (Exception ex) {
+             model.setKnjige(new ArrayList<>());
+            model.fireTableDataChanged();
+            JOptionPane.showMessageDialog(this, ex.getMessage());
             Logger.getLogger(FPretragaKnjiga.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -187,6 +203,20 @@ public class FPretragaKnjiga extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnZaduziActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+           int rowIndex = tabelaPretraga.getSelectedRow();
+        if (rowIndex >= 0) {
+            Knjiga izabrana = ((KnjigaTableModel) tabelaPretraga.getModel()).getKnjige().get(rowIndex);
+            new FPrikazKnjige(izabrana).setVisible(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Izaberite knjigu koju zelite da pregledate!");
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -233,6 +263,7 @@ public class FPretragaKnjiga extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPronadji;
     private javax.swing.JButton btnZaduzi;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -246,6 +277,16 @@ public class FPretragaKnjiga extends javax.swing.JFrame {
 
         KnjigaTableModel model = new KnjigaTableModel();
         tabelaPretraga.setModel(model);
+        try {
+            ArrayList<Knjiga> listaKnjiga = Controller.getInstance().pronadjiKnjige("");
+            model.setKnjige(listaKnjiga);
+            model.fireTableDataChanged();
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+            Logger.getLogger(FPretragaKnjiga.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
 
         switch (mode) {
             case PREVIEW:

@@ -110,8 +110,8 @@ public class FUnosNovogZaduzenja extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblKnjiga, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(lblKnjiga, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -150,22 +150,22 @@ public class FUnosNovogZaduzenja extends javax.swing.JDialog {
         Zaduzenje zaduzenje = new Zaduzenje();
         int selectedRow = tabelaPrimerak.getSelectedRow();
         if (selectedRow >= 0) {
-            
+
             zaduzenje.setPrimerak(((PrimerakTableModel) tabelaPrimerak.getModel()).getPrimerci().get(selectedRow));
-            if(zaduzenje.getPrimerak().getStatus().equals("izdata")){
+            if (zaduzenje.getPrimerak().getStatus().equals("izdata")) {
                 JOptionPane.showMessageDialog(this, "Taj primerak je vec izdat, izerite drugi!");
                 return;
             }
             zaduzenje.setRadnik(ulogovaniRdanik);
             zaduzenje.setClan((Clan) cmbClan.getSelectedItem());
-            
+
             try {
                 Controller.getInstance().sacuvajZaduzenje(zaduzenje);
                 JOptionPane.showMessageDialog(this, "Uspesno dodato zaduzenje");
             } catch (Exception ex) {
                 Logger.getLogger(FUnosNovogZaduzenja.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         } else {
             JOptionPane.showMessageDialog(this, "Izaberite primerak iz tabele!");
             return;
@@ -175,6 +175,9 @@ public class FUnosNovogZaduzenja extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSacuvajZaduzenjeActionPerformed
 
     private void prepareForm(Radnik ulogovaniRadnik, Knjiga knjiga) {
+
+        setLocationRelativeTo(null);
+
         this.ulogovaniRdanik = ulogovaniRadnik;
         this.knjiga = knjiga;
         lblKnjiga.setText("Izabrana knjiga je: " + knjiga.toString());

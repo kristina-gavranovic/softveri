@@ -24,7 +24,6 @@ public class ClientThread extends Thread {
     private final Socket socket;
     private final ObjectInputStream objectInputStream;
     private final ObjectOutputStream objectOutputStream;
-    private Radnik ulogovaniRadnik;
 
     public ClientThread(Socket socket) throws IOException {
         this.socket = socket;
@@ -71,7 +70,7 @@ public class ClientThread extends Thread {
         switch (operation) {
             case Operation.OPERATION_LOGIN:
                     data = Controller.getInstance().pronadjiRadnika((Radnik) requestObject.getData());
-                    msg = "Uspesno sacuvan radnik";
+                    msg = "Uspesno ulogovan radnik";
                     break;
                 
             case Operation.OPERATION_SVI_AUTORI:
@@ -93,11 +92,8 @@ public class ClientThread extends Thread {
 
             case Operation.OPERATION_PRETRAGA_KNJIGA:
                 data = Controller.getInstance().pronadjiPrimerke();
-//                if (data == null) {
-//                    return new ResponseObject(ResponseStatus.ERROR, null, "Nema takvih knjiga");
-//                }
                 break;
-//**Radnik ne baca exc u getObjCase, nego vraca null ako ga ne nadje
+                
             case Operation.OPERATION_SVI_CLANOVI:
                 data = Controller.getInstance().vratiSveClanove();
                 break;
@@ -124,16 +120,12 @@ public class ClientThread extends Thread {
           } catch (Exception ex) {
             ConnectionFactory.getInstance().getConnection().rollback();
             Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseObject(ResponseStatus.ERROR, ex.getMessage(), ex.getMessage());
+            return new ResponseObject(ResponseStatus.ERROR, null, ex.getMessage());
         }
     }
 
     public Socket getSocket() {
         return socket;
-    }
-
-    public Radnik getLoginUser() {
-        return ulogovaniRadnik;
     }
 
 }

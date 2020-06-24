@@ -5,17 +5,14 @@
  */
 package thread;
 
-import domain.Radnik;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author Dusan
- */
+
 public class ServerThread extends Thread {
 
     private final ServerSocket serverSocket;
@@ -59,11 +56,5 @@ public class ServerThread extends Thread {
         }
     }
 
-    public List<Radnik> getUsers() {
-        List<Radnik> users = new ArrayList<>();
-        for (ClientThread client : clients) {
-            users.add(client.getLoginUser());
-        }
-        return users;
-    }
+
 }

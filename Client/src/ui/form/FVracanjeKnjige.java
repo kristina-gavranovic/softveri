@@ -48,7 +48,6 @@ public class FVracanjeKnjige extends javax.swing.JDialog {
         tabelaZaduzenja = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         btnVrati = new javax.swing.JButton();
-        btnZaduzenja = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -85,13 +84,6 @@ public class FVracanjeKnjige extends javax.swing.JDialog {
             }
         });
 
-        btnZaduzenja.setText("pronadji");
-        btnZaduzenja.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnZaduzenjaActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -105,9 +97,7 @@ public class FVracanjeKnjige extends javax.swing.JDialog {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbClan, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(57, 57, 57)
-                                .addComponent(btnZaduzenja))
+                                .addComponent(cmbClan, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(212, 212, 212)
@@ -117,12 +107,11 @@ public class FVracanjeKnjige extends javax.swing.JDialog {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(cmbClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnZaduzenja))
-                .addGap(26, 26, 26)
+                    .addComponent(cmbClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -162,7 +151,6 @@ public class FVracanjeKnjige extends javax.swing.JDialog {
             //
             ArrayList<Zaduzenje> zaduzenjaClana = Controller.getInstance().vratiZaduzenjaClana(clan.getId());
             ArrayList<Knjiga> knjige = Controller.getInstance().vratiSveKnjige();
-            
 
             ((ZaduzenjeTableModel) tabelaZaduzenja.getModel()).setZaduzenja(zaduzenjaClana, knjige);
 
@@ -184,26 +172,6 @@ public class FVracanjeKnjige extends javax.swing.JDialog {
 
 
     }//GEN-LAST:event_cmbClanItemStateChanged
-
-    private void btnZaduzenjaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZaduzenjaActionPerformed
-        // TODO add your handling code here:
-        Clan clan = (Clan) cmbClan.getSelectedItem();
-        if (clan == null) {
-            clan = new Clan(-1);
-        }
-
-        try {
-                        ArrayList<Knjiga> knjige = Controller.getInstance().vratiSveKnjige();
-
-            ArrayList<Zaduzenje> zaduzenjaClana = Controller.getInstance().vratiZaduzenjaClana(clan.getId());
-            ((ZaduzenjeTableModel) tabelaZaduzenja.getModel()).setZaduzenja(zaduzenjaClana,knjige);
-
-        } catch (Exception ex) {
-            Logger.getLogger(FVracanjeKnjige.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-
-    }//GEN-LAST:event_btnZaduzenjaActionPerformed
 
     private void btnVratiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVratiActionPerformed
         // TODO add your handling code here:
@@ -269,7 +237,6 @@ public class FVracanjeKnjige extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnVrati;
-    private javax.swing.JButton btnZaduzenja;
     private javax.swing.JComboBox cmbClan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -279,6 +246,8 @@ public class FVracanjeKnjige extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void prepareForm() {
+        setLocationRelativeTo(null);
+
         ZaduzenjeTableModel ztm = new ZaduzenjeTableModel();
         tabelaZaduzenja.setModel(ztm);
 
