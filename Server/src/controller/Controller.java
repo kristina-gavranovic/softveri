@@ -11,18 +11,22 @@ import domain.Knjiga;
 import domain.Primerak;
 import domain.Radnik;
 import domain.Zaduzenje;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import service.so.impl.SOBrisanjeKnjige;
 import service.so.impl.SOPronadjiPrimerke;
-import service.so.impl.SOPronadjiRadnika;
+import service.so.impl.SOPrijavaRadnika;
 import service.so.impl.SOSacuvajClana;
 import service.so.impl.SOSacuvajKnjigu;
 import service.so.impl.SOSacuvajRadnika;
 import service.so.impl.SOSacuvajZaduzenje;
-import service.so.impl.SOVratiKnjigu;
+import service.so.impl.SORazduziKnjigu;
 import service.so.impl.SOVratiSveAutore;
 import service.so.impl.SOVratiSveClanove;
 import service.so.impl.SOVratiSveKnjige;
-import service.so.impl.SOVratiZaduzenja;
+import service.so.impl.SOVratiZaduzenjaClana;
 
 /**
  *
@@ -51,11 +55,11 @@ public class Controller {
     }
 
     public Object pronadjiRadnika(Radnik radnik) throws Exception {
-        return (Radnik) new SOPronadjiRadnika().execute(radnik);
+        return (Radnik) new SOPrijavaRadnika().execute(radnik);
     }
 
-    public Object pronadjiPrimerke() throws Exception {
-        return (List<Primerak>) new SOPronadjiPrimerke().execute(new Primerak());
+    public Object pronadjiPrimerke(String pretraga) throws Exception {
+        return (List<Primerak>) new SOPronadjiPrimerke().execute(pretraga);
     }
 
     public Object sacuvajKnjigu(Knjiga knjiga) throws Exception {
@@ -75,15 +79,19 @@ public class Controller {
         return new SOSacuvajZaduzenje().execute(zaduzenje);
     }
 
-    public Object vratiZaduzenja()throws Exception {
-        return (List<Zaduzenje>) new SOVratiZaduzenja().execute(new Zaduzenje());
+    public Object vratiZaduzenja(int clanId)throws Exception {
+        return (List<Zaduzenje>) new SOVratiZaduzenjaClana().execute(clanId);
     }
 
     public Object vratiKnjigu(Zaduzenje zaduzenje) throws Exception {
-        return  new SOVratiKnjigu().execute(zaduzenje);
+        return  new SORazduziKnjigu().execute(zaduzenje);
     }
 
     public Object vratiSveKnjige() throws Exception {
         return (List<Clan>) new SOVratiSveKnjige().execute(new Knjiga());
+    }
+
+    public Object brisanjeKnjige(Knjiga knjiga) throws Exception {
+        return (boolean) new SOBrisanjeKnjige().execute(knjiga);
     }
 }

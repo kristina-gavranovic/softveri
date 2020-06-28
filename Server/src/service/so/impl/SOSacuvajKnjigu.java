@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package service.so.impl;
 
 import domain.Autor;
@@ -11,44 +7,37 @@ import domain.IGeneralObject;
 import domain.Knjiga;
 import domain.Primerak;
 import service.so.AbstractGenericOperation;
+import service.validation.KnjigaValidation;
 
-/**
- *
- * @author Kristina
- */
-public class SOSacuvajKnjigu  extends AbstractGenericOperation {
+
+public class SOSacuvajKnjigu extends AbstractGenericOperation {
 
     @Override
     protected void preconditions(Object entity) throws Exception {
-        return;
+        KnjigaValidation.validateKnjiga((Knjiga) entity);
+        for (Primerak primerak : ((Knjiga) entity).getPrimerci()) {
+            KnjigaValidation.validatePrimerak(primerak);
+            
+        }
     }
 
     @Override
     protected Object executeOperation(Object entity) throws Exception {
-         genericDao.save((Knjiga) entity);
-         
+        genericDao.save((Knjiga) entity);
 
-         for (Primerak primerak : ((Knjiga)entity).getPrimerci()) {
-             primerak.setKnjigaId(((Knjiga)entity).getId());
-             genericDao.save(primerak);
-
-         }
-            
-        for (Autor autor : ((Knjiga)entity).getAutori()) {
-            AutorKnjiga autorKnjiga=new AutorKnjiga();
-            autorKnjiga.setAutorID(autor.getId());
-            autorKnjiga.setKnjigaID(((Knjiga)entity).getId());
-            
-            genericDao.save(autorKnjiga);
-
-        
+        for (Primerak primerak : ((Knjiga) entity).getPrimerci()) {
+            primerak.setKnjigaId(((Knjiga) entity).getId());
+            genericDao.save(primerak);
         }
 
-        
-    
+        for (Autor autor : ((Knjiga) entity).getAutori()) {
+            AutorKnjiga autorKnjiga = new AutorKnjiga();
+            autorKnjiga.setAutorID(autor.getId());
+            autorKnjiga.setKnjigaID(((Knjiga) entity).getId());
+
+            genericDao.save(autorKnjiga);
+        }
+
         return true;
     }
-    
-    
-    
 }

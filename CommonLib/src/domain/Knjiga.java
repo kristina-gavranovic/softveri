@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import util.ZanrKnjige;
 
 /**
  *
@@ -20,7 +21,7 @@ public class Knjiga implements Serializable, IGeneralObject {
 
     protected Integer id;
     protected String naslov;
-    protected String zanr;
+    protected ZanrKnjige zanr;
     protected String opis;
     protected String isbn;
     protected List<Primerak> primerci;
@@ -32,7 +33,7 @@ public class Knjiga implements Serializable, IGeneralObject {
 
     }
 
-    public Knjiga(Integer id, String naslov, String zanr, String opis, String isbn) {
+    public Knjiga(Integer id, String naslov, ZanrKnjige zanr, String opis, String isbn) {
         this.id = id;
         this.naslov = naslov;
         this.zanr = zanr;
@@ -80,13 +81,15 @@ public class Knjiga implements Serializable, IGeneralObject {
         this.naslov = naslov;
     }
 
-    public String getZanr() {
+    public ZanrKnjige getZanr() {
         return zanr;
     }
 
-    public void setZanr(String zanr) {
+    public void setZanr(ZanrKnjige zanr) {
         this.zanr = zanr;
     }
+
+   
 
     public String getOpis() {
         return opis;
@@ -136,7 +139,8 @@ public class Knjiga implements Serializable, IGeneralObject {
 
     @Override
     public String getObjectCase() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                return "id = " + this.getId();
+
     }
 
     @Override
@@ -149,7 +153,7 @@ public class Knjiga implements Serializable, IGeneralObject {
             knjiga.setId(rs.getInt("id"));
             knjiga.setIsbn(rs.getString("isbn"));
             knjiga.setNaslov(rs.getString("naslov"));
-            knjiga.setZanr(rs.getString("zanr"));
+            knjiga.setZanr(ZanrKnjige.valueOf(rs.getString("zanr")));
             knjiga.setOpis(rs.getString("opis"));
 
             list.add(knjiga);

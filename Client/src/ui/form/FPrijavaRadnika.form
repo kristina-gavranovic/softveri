@@ -46,7 +46,7 @@
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" attributes="0">
                                       <EmptySpace min="-2" pref="236" max="-2" attributes="0"/>
-                                      <Component id="jbtnLogin" min="-2" pref="100" max="-2" attributes="0"/>
+                                      <Component id="btnLogin" min="-2" pref="100" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="jtxtUsername" max="32767" attributes="0"/>
                               </Group>
@@ -76,7 +76,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jlabPasswordError" min="-2" pref="13" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jbtnLogin" min="-2" max="-2" attributes="0"/>
+              <Component id="btnLogin" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="30" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -100,7 +100,7 @@
     </Component>
     <Component class="javax.swing.JPasswordField" name="jtxtPassword">
     </Component>
-    <Component class="javax.swing.JButton" name="jbtnLogin">
+    <Component class="javax.swing.JButton" name="btnLogin">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="cc" green="cc" red="ff" type="rgb"/>
@@ -111,7 +111,7 @@
         <Property name="text" type="java.lang.String" value="Login"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnLoginActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLoginActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jlabUsernameError">

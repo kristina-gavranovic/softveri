@@ -1,30 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui.form;
 
 import domain.Autor;
 import domain.Knjiga;
 import java.util.ArrayList;
 
-/**
- *
- * @author Kristina
- */
 public class FPrikazKnjige extends javax.swing.JFrame {
+
     Knjiga knjiga;
-    
+
     public FPrikazKnjige(Knjiga knjiga) {
         initComponents();
-        this.knjiga=knjiga;
-        prepareForm();
+        prepareForm(knjiga);
         setKnjiga();
-        
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -44,7 +33,7 @@ public class FPrikazKnjige extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         txtAutori = new javax.swing.JTextArea();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Prikaz knjige");
 
         jLabel1.setText("Naslov:");
@@ -127,7 +116,6 @@ public class FPrikazKnjige extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -145,7 +133,8 @@ public class FPrikazKnjige extends javax.swing.JFrame {
     private javax.swing.JTextField txtZanr;
     // End of variables declaration//GEN-END:variables
 
-    private void prepareForm() {
+    private void prepareForm(Knjiga knjiga) {
+        this.knjiga = knjiga;
         setLocationRelativeTo(null);
         txtAutori.setEditable(false);
         txtId.setEditable(false);
@@ -161,7 +150,7 @@ public class FPrikazKnjige extends javax.swing.JFrame {
         txtIsbn.setText(knjiga.getIsbn());
         txtNaslov.setText(knjiga.getNaslov());
         txtOpis.setText(knjiga.getNaslov());
-        txtZanr.setText(knjiga.getZanr());
+        txtZanr.setText(knjiga.getZanr().toString());
 
     }
 }

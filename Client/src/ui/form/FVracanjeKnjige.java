@@ -9,9 +9,8 @@ import controller.Controller;
 import domain.Clan;
 import domain.Knjiga;
 import domain.Zaduzenje;
-import java.io.IOException;
+import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -21,13 +20,13 @@ import ui.component.table.model.ZaduzenjeTableModel;
  *
  * @author krist
  */
-public class FVracanjeKnjige extends javax.swing.JDialog {
+public class FVracanjeKnjige extends javax.swing.JFrame {
 
     /**
      * Creates new form FVracanjeKnjige
      */
-    public FVracanjeKnjige(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public FVracanjeKnjige() {
+
         initComponents();
         prepareForm();
     }
@@ -143,9 +142,9 @@ public class FVracanjeKnjige extends javax.swing.JDialog {
     private void cmbClanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbClanItemStateChanged
         // TODO add your handling code here:
         Clan clan = (Clan) cmbClan.getSelectedItem();
-        if (clan == null) {
-            clan = new Clan(-1);
-        }
+//        if (clan == null) {
+//            clan = new Clan(-1);
+//        }
 
         try {
             //
@@ -179,10 +178,18 @@ public class FVracanjeKnjige extends javax.swing.JDialog {
         int selectedRow = tabelaZaduzenja.getSelectedRow();
         if (selectedRow != -1) {
             try {
+        Clan clan = (Clan) cmbClan.getSelectedItem();
 
                 Controller.getInstance().vratiKnjigu(((ZaduzenjeTableModel) tabelaZaduzenja.getModel()).getZaduzenja().get(selectedRow));
                 JOptionPane.showMessageDialog(this, "Uspesno vracena knjiga");
+                ArrayList<Zaduzenje> zaduzenjaClana = Controller.getInstance().vratiZaduzenjaClana(clan.getId());
+                ArrayList<Knjiga> knjige = Controller.getInstance().vratiSveKnjige();
 
+                ((ZaduzenjeTableModel) tabelaZaduzenja.getModel()).setZaduzenja(zaduzenjaClana, knjige);
+
+            } catch (SocketException e) {
+                JOptionPane.showConfirmDialog(this, "Server nije pokrenut !", "Greska", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+                System.exit(0);
             } catch (Exception ex) {
                 Logger.getLogger(FVracanjeKnjige.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -193,47 +200,6 @@ public class FVracanjeKnjige extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnVratiActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FVracanjeKnjige.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FVracanjeKnjige.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FVracanjeKnjige.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FVracanjeKnjige.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FVracanjeKnjige dialog = new FVracanjeKnjige(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnVrati;
@@ -256,6 +222,9 @@ public class FVracanjeKnjige extends javax.swing.JDialog {
         ArrayList<Clan> listClanovi = new ArrayList<>();
         try {
             listClanovi = Controller.getInstance().vratiSveClanove();
+        } catch (SocketException e) {
+            JOptionPane.showConfirmDialog(this, "Server nije pokrenut !", "Greska", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
         } catch (Exception ex) {
             Logger.getLogger(FUnosNovogZaduzenja.class.getName()).log(Level.SEVERE, null, ex);
         }

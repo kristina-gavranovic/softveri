@@ -5,6 +5,7 @@ import dao.GenericDao;
 import dao.impl.GenericDaoImpl;
 import java.sql.SQLException;
 import database.connection.ConnectionFactory;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 
 public abstract class AbstractGenericOperation {
@@ -23,11 +24,11 @@ public abstract class AbstractGenericOperation {
             commitTransaction();
             return result;
         } catch (Exception ex) {
+            if(ex instanceof SQLIntegrityConstraintViolationException)
+                throw new Exception("Operacija ne moze da se izvrsi!");
             ex.printStackTrace();
             rollbackTransaction();
             throw new Exception(ex.getMessage());
-         //   throw new Exception("Sistem ne moze da izvrsi operaciju");
-         //Ako bude morala da bude jednolicna poruka 
         }
     }
 

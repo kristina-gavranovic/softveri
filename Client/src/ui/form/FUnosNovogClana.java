@@ -3,15 +3,14 @@ package ui.form;
 import controller.Controller;
 import domain.Clan;
 import java.io.IOException;
+
+import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import ui.form_validation.ClanFormValidation;
 
-/**
- *
- * @author krist
- */
+
 public class FUnosNovogClana extends javax.swing.JDialog {
 
     public FUnosNovogClana(java.awt.Frame parent, boolean modal) {
@@ -33,7 +32,7 @@ public class FUnosNovogClana extends javax.swing.JDialog {
         txtPrezime = new javax.swing.JTextField();
         txtJmbg = new javax.swing.JTextField();
         txtTelefon = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnSacuvaj = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -48,11 +47,11 @@ public class FUnosNovogClana extends javax.swing.JDialog {
 
         jLabel4.setText("Telefon:");
 
-        jButton1.setForeground(new java.awt.Color(204, 0, 204));
-        jButton1.setText("Sacuvaj");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnSacuvaj.setForeground(new java.awt.Color(204, 0, 204));
+        btnSacuvaj.setText("Sacuvaj");
+        btnSacuvaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnSacuvajActionPerformed(evt);
             }
         });
 
@@ -78,7 +77,7 @@ public class FUnosNovogClana extends javax.swing.JDialog {
                                 .addComponent(txtIme)
                                 .addComponent(txtPrezime)
                                 .addComponent(txtJmbg, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE))))
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSacuvaj, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -101,7 +100,7 @@ public class FUnosNovogClana extends javax.swing.JDialog {
                     .addComponent(jLabel4)
                     .addComponent(txtTelefon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
-                .addComponent(jButton1)
+                .addComponent(btnSacuvaj)
                 .addContainerGap(53, Short.MAX_VALUE))
         );
 
@@ -124,7 +123,7 @@ public class FUnosNovogClana extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacuvajActionPerformed
 
         Clan clan = new Clan(txtIme.getText().trim(), txtPrezime.getText().trim(), txtJmbg.getText().trim(), txtTelefon.getText().trim());
 
@@ -133,57 +132,20 @@ public class FUnosNovogClana extends javax.swing.JDialog {
             Controller.getInstance().sacuvajClana(clan);
             JOptionPane.showMessageDialog(this, "Uspesno su uneti podaci o novom clanu!");
 
+        } catch (SocketException e) {
+            JOptionPane.showConfirmDialog(this, "Server nije pokrenut, pokusajte ponovo!", "Greska", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+             System.exit(0);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
+            JOptionPane.showConfirmDialog(this, ex.getMessage(), "Greska", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(FUnosNovogClana.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnSacuvajActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FUnosNovogClana.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FUnosNovogClana.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FUnosNovogClana.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FUnosNovogClana.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FUnosNovogClana dialog = new FUnosNovogClana(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnSacuvaj;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -1,79 +1,61 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package service.so.impl;
 
 import domain.Autor;
 import domain.AutorKnjiga;
-import domain.IGeneralObject;
 import domain.Knjiga;
 import domain.Primerak;
 import java.util.ArrayList;
 import java.util.List;
 import service.so.AbstractGenericOperation;
+import service.util.IGeneralObjectConverter;
 
-/**
- *
- * @author Kristina
- */
 public class SOPronadjiPrimerke extends AbstractGenericOperation {
 
     @Override
     protected void preconditions(Object entity) throws Exception {
-        return;
     }
 
     @Override
     protected Object executeOperation(Object entity) throws Exception {
-        
-        List<Knjiga> listaKnjiga = convertToKnjiga(genericDao.find(new Knjiga()));
 
-            //dodati metode koje setuju primerke i autore na knjigu 
-            //promeniti tableModel za knjigu
+        List<Knjiga> listaKnjiga = IGeneralObjectConverter.convertToKnjiga(genericDao.find(new Knjiga()));
+        ArrayList<Knjiga> listZadovoljavaUslov = new ArrayList<>();
+
+        //dodati metode koje setuju primerke i autore na knjigu 
+        //promeniti tableModel za knjigu
+        mapObjects(listaKnjiga);
+
         for (Knjiga knjiga : listaKnjiga) {
-            System.out.println(knjiga+" je ucitana iz baze" +knjiga.getId());
-            List<Primerak> listaPrimeraka = convertToPrimerak(genericDao.findBy(new Primerak(), "knjigaID", knjiga.getId().toString()));
-            knjiga.setPrimerci(listaPrimeraka);
-            
-          
-           List<AutorKnjiga> listaAutorKnjiga=convertToAutorKnjiga(genericDao.findBy(new AutorKnjiga(), "idKnjiga", knjiga.getId().toString()));
-           
-           List<Autor> listAutor=new ArrayList<>();
-           for (AutorKnjiga ak : listaAutorKnjiga) {
-                Autor a=(Autor) genericDao.findBy(new Autor(), "id", ak.getAutorID().toString()).get(0);
-                listAutor.add(a);
+            if (knjiga.getNaslov().toLowerCase().contains(((String) entity).toLowerCase())) {
+                listZadovoljavaUslov.add(knjiga);
+            } else if (knjiga.autoriToString((ArrayList<Autor>) knjiga.getAutori()).toLowerCase().contains(((String) entity).toLowerCase())) {
+                listZadovoljavaUslov.add(knjiga);
             }
-           knjiga.setAutori(listAutor);
-
 
         }
-        return listaKnjiga;
-
-    }
-
-    private List<Primerak> convertToPrimerak(List<IGeneralObject> find) {
-        List<Primerak> list = new ArrayList<>();
-        for (IGeneralObject i : find) {
-            list.add((Primerak) i);
+        if (listZadovoljavaUslov.isEmpty()) {
+            throw new Exception("Sistem ne moze da pronadje knjige!");
         }
-        return list;
+
+        return listZadovoljavaUslov;
     }
 
-    private List<Knjiga> convertToKnjiga(List<IGeneralObject> find) {
-        List<Knjiga> list = new ArrayList<>();
-        for (IGeneralObject i : find) {
-            list.add((Knjiga) i);
+    private void mapObjects(List<Knjiga> listaKnjiga) throws Exception {
+        for (Knjiga knjiga : listaKnjiga) {
+            List<Primerak> listaPrimeraka = IGeneralObjectConverter.convertToPrimerak(genericDao.findBy(new Primerak(), "knjigaID", knjiga.getId().toString()));
+            knjiga.setPrimerci(listaPrimeraka);
+
+            List<AutorKnjiga> listaAutorKnjiga = IGeneralObjectConverter.convertToAutorKnjiga(genericDao.findBy(new AutorKnjiga(), "idKnjiga", knjiga.getId().toString()));
+
+            List<Autor> listAutor = new ArrayList<>();
+            for (AutorKnjiga ak : listaAutorKnjiga) {
+//                TODO implementiraj preko .get genericke operacije (u autor implementiraj getObjectCase metodu)
+
+                Autor a1 = (Autor) genericDao.get(new Autor(ak.getAutorID()));
+                //  Autor a = (Autor) genericDao.findBy(new Autor(), "id", ak.getAutorID().toString()).get(0);
+                listAutor.add(a1);
+            }
+            knjiga.setAutori(listAutor);
         }
-        return list;
     }
-     private List<AutorKnjiga> convertToAutorKnjiga(List<IGeneralObject> find) {
-        List<AutorKnjiga> list = new ArrayList<>();
-        for (IGeneralObject i : find) {
-            list.add((AutorKnjiga) i);
-        }
-        return list;
-    }
-    
 }

@@ -1,21 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package client;
 
-import ui.form.FLogin;
+import ui.form.FPrijavaRadnika;
 
-/**
- *
- * @author student1
- */
 public class Client {
 
     public static void main(String[] args) {
-        FLogin fLogin=new FLogin();
-        fLogin.setVisible(true);
+        FPrijavaRadnika form = new FPrijavaRadnika();
+        form.setVisible(true);
     }
-    
+
 }

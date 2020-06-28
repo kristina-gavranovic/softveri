@@ -7,7 +7,7 @@ import util.ResponseStatus;
 
 public class ResponseObject implements Serializable {
 
-    private static final long serialVersionUID = 1209201909480000l;
+   // private static final long serialVersionUID = 1209201909480000l;
     private ResponseStatus status;
     private Object data;
     private String errorMessage;

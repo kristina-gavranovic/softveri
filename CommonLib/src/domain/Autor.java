@@ -16,8 +16,8 @@ import java.util.Objects;
  *
  * @author krist
  */
-public class Autor implements  Serializable, IGeneralObject{
-    
+public class Autor implements Serializable, IGeneralObject {
+
     private Integer id;
     private String ime;
     private String prezime;
@@ -33,6 +33,10 @@ public class Autor implements  Serializable, IGeneralObject{
         this.zemljaPorekla = zemljaPorekla;
     }
 
+    public Autor(Integer id) {
+        this.id=id;
+    }
+
     public String getZemljaPorekla() {
         return zemljaPorekla;
     }
@@ -40,8 +44,6 @@ public class Autor implements  Serializable, IGeneralObject{
     public void setZemljaPorekla(String zemljaPorekla) {
         this.zemljaPorekla = zemljaPorekla;
     }
-
-   
 
     public void setId(int id) {
         this.id = id;
@@ -91,12 +93,12 @@ public class Autor implements  Serializable, IGeneralObject{
 
     @Override
     public String toString() {
-        return ime+" "+prezime; //To change body of generated methods, choose Tools | Templates.
+        return ime + " " + prezime;
     }
 
     @Override
     public String getTableName() {
-    return "autor";
+        return "autor";
     }
 
     @Override
@@ -118,32 +120,39 @@ public class Autor implements  Serializable, IGeneralObject{
 
     @Override
     public IGeneralObject getObject(ResultSet rs) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
+          if (rs.next()) {
+             Autor autor = new Autor();
+            autor.setId(rs.getInt("id"));
+            autor.setIme(rs.getString("ime"));
+            autor.setPrezime(rs.getString("prezime"));
+            autor.setZemljaPorekla(rs.getString("zemljaPorekla"));
+            return autor;
+        }
+        throw new SQLException("Sistem ne moze da pronadje autore!");
     }
 
     @Override
     public String getObjectCase() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "id = " + this.getId();
     }
 
     @Override
     public List<IGeneralObject> getList(ResultSet rs) throws SQLException {
-          List<IGeneralObject> list = new ArrayList<>();
-        
-        while(rs.next()){
-           
-            Autor autor=new Autor();
+        List<IGeneralObject> list = new ArrayList<>();
+
+        while (rs.next()) {
+
+            Autor autor = new Autor();
             autor.setId(rs.getInt("id"));
             autor.setIme(rs.getString("ime"));
             autor.setPrezime(rs.getString("prezime"));
             autor.setZemljaPorekla(rs.getString("zemljaPorekla"));
 
-           
             list.add(autor);
-            
 
         }
-    return list;
+        return list;
     }
 
     @Override
@@ -156,9 +165,4 @@ public class Autor implements  Serializable, IGeneralObject{
         return this.id;
     }
 
-    
-    
-    
-    
-    
 }

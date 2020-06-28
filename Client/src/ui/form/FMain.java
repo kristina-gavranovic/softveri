@@ -10,9 +10,7 @@ public class FMain extends javax.swing.JFrame {
 
     public FMain(Radnik ulogovani) {
         initComponents();
-        ulogovaniRadnik = ulogovani;
-        lblUlogovaniRadnik.setText(ulogovaniRadnik.toString());
-        setLocationRelativeTo(null);
+        prepareForm(ulogovani);
 
     }
 
@@ -31,6 +29,7 @@ public class FMain extends javax.swing.JFrame {
         jMenuKnjige = new javax.swing.JMenu();
         jMenuItemKnjigeNova = new javax.swing.JMenuItem();
         jMenuItemKnjigePretraga = new javax.swing.JMenuItem();
+        jMenuItemObrisiKnjigu = new javax.swing.JMenuItem();
         jmenuClan = new javax.swing.JMenu();
         jmenuItemClanNovi = new javax.swing.JMenuItem();
         jMenuRadnik = new javax.swing.JMenu();
@@ -85,6 +84,14 @@ public class FMain extends javax.swing.JFrame {
             }
         });
         jMenuKnjige.add(jMenuItemKnjigePretraga);
+
+        jMenuItemObrisiKnjigu.setText("Obrisi knjigu");
+        jMenuItemObrisiKnjigu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemObrisiKnjiguActionPerformed(evt);
+            }
+        });
+        jMenuKnjige.add(jMenuItemObrisiKnjigu);
 
         jMenuBar.add(jMenuKnjige);
 
@@ -163,8 +170,7 @@ public class FMain extends javax.swing.JFrame {
 
     private void jMenuItemKnjigePretragaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemKnjigePretragaActionPerformed
 
-        FPretragaKnjiga form = new FPretragaKnjiga(this, ulogovaniRadnik, ViewMode.PREVIEW);
-
+        FPretragaKnjiga form = new FPretragaKnjiga(this, ulogovaniRadnik, ViewMode.PRETRAGA);
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItemKnjigePretragaActionPerformed
 
@@ -185,26 +191,30 @@ public class FMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jmenuItemClanNoviActionPerformed
 
     private void jMenuItemRadnikNoviActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRadnikNoviActionPerformed
-        // TODO add your handling code here:
-        FUnosNovogRadnika form = new FUnosNovogRadnika(this, true);
+        FUnosNovogRadnika form = new FUnosNovogRadnika();
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItemRadnikNoviActionPerformed
 
     private void btnNovoZaduzenjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoZaduzenjeActionPerformed
-        // TODO add your handling code here:
-        FPretragaKnjiga form = new FPretragaKnjiga(this, ulogovaniRadnik, ViewMode.EDIT);
+        FPretragaKnjiga form = new FPretragaKnjiga(this, ulogovaniRadnik, ViewMode.ZADUZIVANJE);
         form.setVisible(true);
     }//GEN-LAST:event_btnNovoZaduzenjeActionPerformed
 
     private void btnVracanjeKnjigeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVracanjeKnjigeActionPerformed
-        // TODO add your handling code here:
-        FVracanjeKnjige form = new FVracanjeKnjige(this, false);
+        FVracanjeKnjige form = new FVracanjeKnjige();
         form.setVisible(true);
     }//GEN-LAST:event_btnVracanjeKnjigeActionPerformed
 
-    public Radnik getUlogovaniRadnik() {
-        return ulogovaniRadnik;
-    }
+    private void jMenuItemObrisiKnjiguActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemObrisiKnjiguActionPerformed
+        // TODO add your handling code here:
+        
+        FPretragaKnjiga form=new FPretragaKnjiga(this, ulogovaniRadnik, ViewMode.BRISANJE);
+        form.setVisible(true);
+    }//GEN-LAST:event_jMenuItemObrisiKnjiguActionPerformed
+
+//    public Radnik getUlogovaniRadnik() {
+//        return ulogovaniRadnik;
+//    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -217,6 +227,7 @@ public class FMain extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItemKnjigeNova;
     private javax.swing.JMenuItem jMenuItemKnjigePretraga;
+    private javax.swing.JMenuItem jMenuItemObrisiKnjigu;
     private javax.swing.JMenuItem jMenuItemRadnikNovi;
     private javax.swing.JMenu jMenuKnjige;
     private javax.swing.JMenu jMenuRadnik;
@@ -224,5 +235,11 @@ public class FMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmenuItemClanNovi;
     private javax.swing.JLabel lblUlogovaniRadnik;
     // End of variables declaration//GEN-END:variables
+
+    private void prepareForm(Radnik ulogovani) {
+        ulogovaniRadnik = ulogovani;
+        lblUlogovaniRadnik.setText(ulogovaniRadnik.toString());
+        setLocationRelativeTo(null);
+    }
 
 }

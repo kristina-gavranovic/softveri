@@ -1,22 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package service.validation;
+
 
 import domain.Radnik;
 import util.AbstractValidation;
 
-/**
- *
- * @author Kristina
- */
-public class RadnikValidation extends AbstractValidation {
-
-    public static void validate(Radnik expected, Radnik actual) throws Exception {
-        notNull("Korisnik ne postoji", expected);
-        notEquals("Pogresan password", expected.getPassword().trim(), actual.getPassword().trim());
+public class RadnikValidation extends  AbstractValidation{
+  public static void validate(Radnik  radnik) throws Exception {
+        notNull("Radnik ne sme biti null", radnik);
+        notEmpty("Unesite ime", radnik.getIme());
+        notEmpty("Unesite prezime", radnik.getPrezime());
+        notEmpty("Unesite username", radnik.getUsername());
+        notEmpty("Unesite password ", radnik.getPassword());
+        notNull("Status radnika ne sme biti null", radnik.getStatus());
     }
-
+    
 }

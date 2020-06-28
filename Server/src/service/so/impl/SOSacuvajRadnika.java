@@ -1,22 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package service.so.impl;
 
 import domain.Radnik;
 import service.so.AbstractGenericOperation;
+import service.validation.RadnikValidation;
 
-/**
- *
- * @author Kristina
- */
+
 public class SOSacuvajRadnika  extends AbstractGenericOperation {
 
     @Override
     protected void preconditions(Object entity) throws Exception {
-        return;
+        RadnikValidation.validate((Radnik)entity);
     }
 
     @Override

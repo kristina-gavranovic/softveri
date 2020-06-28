@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @author Dudat
+ * @author Kristina
  */
 public interface GenericDao {
     public IGeneralObject update(IGeneralObject generalObject) throws Exception;

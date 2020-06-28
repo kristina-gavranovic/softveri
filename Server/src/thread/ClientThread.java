@@ -63,61 +63,64 @@ public class ClientThread extends Thread {
     }
 
     private ResponseObject handleRequest(RequestObject requestObject) throws SQLException, Exception {
-        int operation = requestObject.getOperation();
-         try {
-        Object data = null;
-        String msg = null;
-        switch (operation) {
-            case Operation.OPERATION_LOGIN:
+        try {
+            Operation operation = requestObject.getOperation();
+            Object data = null;
+            String msg = null;
+            switch (operation) {
+                case OPERATION_LOGIN:
                     data = Controller.getInstance().pronadjiRadnika((Radnik) requestObject.getData());
                     msg = "Uspesno ulogovan radnik";
                     break;
-                
-            case Operation.OPERATION_SVI_AUTORI:
-                data = Controller.getInstance().vratiSveAutore();
-                break;
 
-            case Operation.OPERATION_SACUVAJ_RADNIKA:
-                data = Controller.getInstance().sacuvajRadnika((Radnik) requestObject.getData());
-                msg = "Uspesno sacuvan radnik";
-                break;
+                case OPERATION_SVI_AUTORI:
+                    data = Controller.getInstance().vratiSveAutore();
+                    break;
 
-            case Operation.OPERATION_SACUVAJ_KNJIGU:
-                data = Controller.getInstance().sacuvajKnjigu((Knjiga) requestObject.getData());
-                break;
-            case Operation.OPERATION_SACUVAJ_CLANA:
-                data = Controller.getInstance().sacuvajClana((Clan) requestObject.getData());
-                msg = "Uspesno sacuvan clan";
-                break;
+                case OPERATION_SACUVAJ_RADNIKA:
+                    data = Controller.getInstance().sacuvajRadnika((Radnik) requestObject.getData());
+                    msg = "Uspesno sacuvan radnik";
+                    break;
 
-            case Operation.OPERATION_PRETRAGA_KNJIGA:
-                data = Controller.getInstance().pronadjiPrimerke();
-                break;
-                
-            case Operation.OPERATION_SVI_CLANOVI:
-                data = Controller.getInstance().vratiSveClanove();
-                break;
+                case OPERATION_SACUVAJ_KNJIGU:
+                    data = Controller.getInstance().sacuvajKnjigu((Knjiga) requestObject.getData());
+                    break;
+                case OPERATION_SACUVAJ_CLANA:
+                    data = Controller.getInstance().sacuvajClana((Clan) requestObject.getData());
+                    msg = "Uspesno sacuvan clan";
+                    break;
 
-            case Operation.OPERATION_SACUVAJ_ZADUZENJE:
-                data = Controller.getInstance().sacuvajZaduzenje((Zaduzenje) requestObject.getData());
-                msg = "Uspesno sacuvano zaduzenje";
-                break;
+                case OPERATION_PRETRAGA_KNJIGA:
+                    data = Controller.getInstance().pronadjiPrimerke((String) requestObject.getData());
+                    break;
 
-            case Operation.OPERATION_SVA_ZADUZENJA:
-                data = Controller.getInstance().vratiZaduzenja();
-                msg = "Uspesno nasao zaduzenje";
-                break;
-            case Operation.OPERATION_VRATI_KNJIGU:
-                data = Controller.getInstance().vratiKnjigu((Zaduzenje) requestObject.getData());
-                msg = "Uspesno VRATIO zaduzenje";
-                break;
-            case Operation.OPERATION_SVE_KNJIGE:
-                data = Controller.getInstance().vratiSveKnjige();
-                break;
+                case OPERATION_SVI_CLANOVI:
+                    data = Controller.getInstance().vratiSveClanove();
+                    break;
 
-        }
-        return new ResponseObject(ResponseStatus.SUCCESS, data, msg);
-          } catch (Exception ex) {
+                case OPERATION_SACUVAJ_ZADUZENJE:
+                    data = Controller.getInstance().sacuvajZaduzenje((Zaduzenje) requestObject.getData());
+                    msg = "Uspesno sacuvano zaduzenje";
+                    break;
+
+                case OPERATION_SVA_ZADUZENJA:
+                    data = Controller.getInstance().vratiZaduzenja((int)requestObject.getData());
+                    msg = "Uspesno nasao zaduzenje";
+                    break;
+                case OPERATION_VRATI_KNJIGU:
+                    data = Controller.getInstance().vratiKnjigu((Zaduzenje) requestObject.getData());
+                    msg = "Uspesno VRATIO zaduzenje";
+                    break;
+                case OPERATION_SVE_KNJIGE:
+                    data = Controller.getInstance().vratiSveKnjige();
+                    break;
+                case BRISANJE_KNJIGE:
+                    data=Controller.getInstance().brisanjeKnjige((Knjiga)requestObject.getData());
+                    break;
+
+            }
+            return new ResponseObject(ResponseStatus.SUCCESS, data, msg);
+        } catch (Exception ex) {
             ConnectionFactory.getInstance().getConnection().rollback();
             Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseObject(ResponseStatus.ERROR, null, ex.getMessage());

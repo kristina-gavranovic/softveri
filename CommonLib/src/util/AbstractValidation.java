@@ -1,6 +1,10 @@
 
 package util;
 
+//TODO obrisi metode koje ne koristis nigde
+
+import domain.Radnik;
+import domain.StatusRadnika;
 
 public abstract class AbstractValidation {
     protected static void notEmpty(String msg, String txt) throws Exception{
@@ -13,18 +17,13 @@ public abstract class AbstractValidation {
             throw new Exception(msg);
     }
     
-    protected static void notGreaterThan(String msg, Double num, Double min) throws Exception{
-        if(num > min)
-            throw new Exception(msg);
-    }
-    
-    protected static void notLessThan(String msg, Double num, Double max) throws Exception {
-        if (num < max) 
-            throw new Exception(msg);
-    }
-    
     protected static void notEquals(String msg, String expected, String actual) throws Exception {
         if(!expected.equals(actual))
             throw new Exception(msg);
+    }
+    protected static void isActive(String msg,Object obj) throws Exception{
+        if(((Radnik)obj).getStatus()==StatusRadnika.neaktivan)
+            throw new Exception(msg);
+    
     }
 }

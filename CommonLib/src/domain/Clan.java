@@ -141,12 +141,12 @@ public class Clan implements Serializable, IGeneralObject {
                 .append(this.ime)
                 .append("', '")
                 .append(this.prezime)
-                .append("', ")
+                .append("', '")
                 .append(this.jmbg)
-                .append(", ")
+                .append("', '")
                 .append(this.telefon)
+                .append("'")
                 .toString();
-
     }
 
     @Override

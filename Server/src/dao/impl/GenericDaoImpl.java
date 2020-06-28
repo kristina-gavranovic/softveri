@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package dao.impl;
 
 import dao.GenericDao;
@@ -14,10 +10,7 @@ import java.sql.Statement;
 import java.util.List;
 import database.connection.ConnectionFactory;
 
-/**
- *
- * @author Dudat
- */
+
 public class GenericDaoImpl implements GenericDao {
 
     @Override
@@ -66,7 +59,7 @@ public class GenericDaoImpl implements GenericDao {
             System.out.println(query);
 
             Statement statement = connection.createStatement();
-            statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+            statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);             
 
             ResultSet rs = statement.getGeneratedKeys();
 
@@ -105,9 +98,10 @@ public class GenericDaoImpl implements GenericDao {
                 .toString();
 
         if (connection.createStatement().executeUpdate(query) > 0) {
+            
             return true;
         }
-        throw new Exception(object.getTableName() + " cant be deleted");
+        throw new Exception(object.getTableName() + " se ne moze obrisati!");
     }
 
     @Override

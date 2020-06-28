@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package domain;
 
 import java.io.Serializable;
@@ -10,35 +5,33 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import util.StatusPrimerka;
 
-/**
- *
- * @author krist
- */
 public class Primerak implements Serializable, IGeneralObject {
 
     private Integer rbr;
     private String izdavac;
-    private String status;
+    private StatusPrimerka status;
     private int godinaIzdavanja;
     private Integer knjigaId;
 
     public Primerak() {
     }
 
-    public Primerak(int rbr, String izdavac, String status, int godinaIzdavanja, Integer knjigaId) {
+    public Primerak(int rbr, String izdavac, StatusPrimerka status, int godinaIzdavanja, Integer knjigaId) {
         this.rbr = rbr;
         this.izdavac = izdavac;
         this.status = status;
         this.godinaIzdavanja = godinaIzdavanja;
         this.knjigaId = knjigaId;
     }
-      public Primerak( String izdavac, int godinaIzdavanja) {
+
+    public Primerak(String izdavac, int godinaIzdavanja) {
         this.rbr = -1;
         this.izdavac = izdavac;
-        this.status = "slobodna";
+        this.status = StatusPrimerka.slobodna;
         this.godinaIzdavanja = godinaIzdavanja;
-       
+
     }
 
     Primerak(Integer rbr) {
@@ -70,11 +63,11 @@ public class Primerak implements Serializable, IGeneralObject {
         this.izdavac = izdavac;
     }
 
-    public String getStatus() {
+    public StatusPrimerka getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusPrimerka status) {
         this.status = status;
     }
 
@@ -89,13 +82,11 @@ public class Primerak implements Serializable, IGeneralObject {
     @Override
     public String toString() {
         return this.izdavac;
-        //  return super.getNaslov()+" "+this.getIzdavac();//To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public String getTableName() {
         return "primerak";
-        //return "primerak p JOIN biblioteka.knjiga k ON k.id=p.knjigaID ";
     }
 
     @Override
@@ -107,14 +98,13 @@ public class Primerak implements Serializable, IGeneralObject {
     @Override
     public String getInsertValues() {
 
-        // System.out.println(super.getId());
         return new StringBuilder()
                 .append("'")
                 .append(this.izdavac)
                 .append("', ")
                 .append(this.godinaIzdavanja)
                 .append(", '")
-                .append(this.status)
+                .append(this.status.toString())
                 .append("', ")
                 .append(this.knjigaId)
                 .toString();
@@ -123,7 +113,16 @@ public class Primerak implements Serializable, IGeneralObject {
 
     @Override
     public IGeneralObject getObject(ResultSet rs) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+           if (rs.next()) {
+             Primerak primerak = new Primerak();
+            primerak.setKnjigaId(rs.getInt("knjigaID"));
+            primerak.setRbr(rs.getInt("rbr"));
+            primerak.setIzdavac(rs.getString("izdavac"));
+            primerak.setStatus(StatusPrimerka.valueOf( rs.getString("status")));
+            return primerak;
+        }
+        throw new SQLException("Sistem ne moze da pronadje primerke!");
+
     }
 
     @Override
@@ -141,7 +140,7 @@ public class Primerak implements Serializable, IGeneralObject {
             Primerak primerak = new Primerak();
             primerak.setRbr(rs.getInt("rbr"));
             primerak.setIzdavac(rs.getString("izdavac"));
-            primerak.setStatus(rs.getString("status"));
+            primerak.setStatus(StatusPrimerka.valueOf(rs.getString("status")));
             primerak.setGodinaIzdavanja(rs.getInt("godinaizdavanja"));
             primerak.setKnjigaId(rs.getInt("knjigaID"));
 
@@ -153,16 +152,15 @@ public class Primerak implements Serializable, IGeneralObject {
 
     @Override
     public String getUpdateValues() {
-        if (this.getStatus().equals("izdata")) 
+        if (this.getStatus().equals(StatusPrimerka.izdata)) {
             return new StringBuilder()
-                    .append("status = '").append("slobodna").append("' ").toString();
-        
-            return new StringBuilder()
-                    .append("status = '").append("izdata").append("' ").toString();
-
+                    .append("status = '").append(StatusPrimerka.slobodna.toString()).append("' ").toString();
         }
 
-    
+        return new StringBuilder()
+                .append("status = '").append(StatusPrimerka.izdata.toString()).append("' ").toString();
+
+    }
 
     @Override
     public void setId(int id) {
