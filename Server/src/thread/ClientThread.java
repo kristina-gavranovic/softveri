@@ -69,7 +69,7 @@ public class ClientThread extends Thread {
             String msg = null;
             switch (operation) {
                 case OPERATION_LOGIN:
-                    data = Controller.getInstance().pronadjiRadnika((Radnik) requestObject.getData());
+                    data = Controller.getInstance().prijaviRadnika((Radnik) requestObject.getData());
                     msg = "Uspesno ulogovan radnik";
                     break;
 
@@ -109,7 +109,7 @@ public class ClientThread extends Thread {
                     break;
                 case OPERATION_VRATI_KNJIGU:
                     data = Controller.getInstance().vratiKnjigu((Zaduzenje) requestObject.getData());
-                    msg = "Uspesno VRATIO zaduzenje";
+                    msg = "Uspesno vratio zaduzenje";
                     break;
                 case OPERATION_SVE_KNJIGE:
                     data = Controller.getInstance().vratiSveKnjige();

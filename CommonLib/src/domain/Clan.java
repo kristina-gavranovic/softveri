@@ -161,7 +161,7 @@ public class Clan implements Serializable, IGeneralObject {
 
             return clan;
         }
-        throw new SQLException("No clan in result set");
+        throw new SQLException("Nema clan u result set=u");
 
     }
 

@@ -138,16 +138,18 @@ public class FUnosNovogRadnika extends javax.swing.JFrame {
     private void btnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacuvajActionPerformed
 
         try {
-            Radnik noviRadnik = new Radnik(txtIme.getText(), txtPrezime.getText(), txtUsername.getText().trim(), txtPassword.getText().trim(), StatusRadnika.valueOf(cmbStatus.getSelectedItem().toString()));
-            RadnikFormValidation.validate(noviRadnik);
-            Controller.getInstance().sacuvajRadnika(noviRadnik);
+            Radnik radnik = new Radnik(txtIme.getText(), txtPrezime.getText(), txtUsername.getText().trim(), txtPassword.getText().trim(), StatusRadnika.valueOf(cmbStatus.getSelectedItem().toString()));
+            RadnikFormValidation.validate(radnik);
+            Controller.getInstance().sacuvajRadnika(radnik);
             JOptionPane.showMessageDialog(this, "Uspesno su uneti podaci o novom radniku. ");
+            dispose();
 
         } catch (SocketException e) {
             JOptionPane.showConfirmDialog(this, "Server nije pokrenut !", "Greska", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         } catch (Exception ex) {
-            JOptionPane.showConfirmDialog(this, ex.getMessage(), "Greska", ERROR);
+            JOptionPane.showConfirmDialog(this, ex.getMessage(), "Greska", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+
             Logger.getLogger(FUnosNovogRadnika.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -173,10 +175,10 @@ public class FUnosNovogRadnika extends javax.swing.JFrame {
     private void prepareForm() {
         setLocationRelativeTo(null);
         cmbStatus.removeAllItems();
-        
+
         for (StatusRadnika value : StatusRadnika.values()) {
             cmbStatus.addItem(value.toString());
         }
-     
+
     }
 }

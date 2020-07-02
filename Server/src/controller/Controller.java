@@ -11,13 +11,10 @@ import domain.Knjiga;
 import domain.Primerak;
 import domain.Radnik;
 import domain.Zaduzenje;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import service.so.impl.SOBrisanjeKnjige;
 import service.so.impl.SOPronadjiPrimerke;
-import service.so.impl.SOPrijavaRadnika;
+import service.so.impl.SOPrijaviRadnika;
 import service.so.impl.SOSacuvajClana;
 import service.so.impl.SOSacuvajKnjigu;
 import service.so.impl.SOSacuvajRadnika;
@@ -54,8 +51,8 @@ public class Controller {
         return (Radnik) new SOSacuvajRadnika().execute(radnik);
     }
 
-    public Object pronadjiRadnika(Radnik radnik) throws Exception {
-        return (Radnik) new SOPrijavaRadnika().execute(radnik);
+    public Object prijaviRadnika(Radnik radnik) throws Exception {
+        return (Radnik) new SOPrijaviRadnika().execute(radnik);
     }
 
     public Object pronadjiPrimerke(String pretraga) throws Exception {

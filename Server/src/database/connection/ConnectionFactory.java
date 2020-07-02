@@ -12,7 +12,6 @@ public class ConnectionFactory {
     public static ConnectionFactory instance;
 
     private ConnectionFactory() throws SQLException {
-//        TODO prebaci u properties (kod mene gledaj)
 
         try {
 

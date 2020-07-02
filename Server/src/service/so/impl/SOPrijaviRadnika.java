@@ -7,8 +7,8 @@ import service.so.AbstractGenericOperation;
 import service.validation.PrijavaRadnikaValidation;
 
 
-public class SOPrijavaRadnika extends AbstractGenericOperation {
-    //dodaj za proveru da li je aktivan radnik
+public class SOPrijaviRadnika extends AbstractGenericOperation {
+   
 
     @Override
     protected Object executeOperation(Object entity) throws Exception {

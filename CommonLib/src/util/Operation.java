@@ -1,8 +1,6 @@
 
 package util;
 
-import java.io.Serializable;
-
 
 public enum Operation {
 

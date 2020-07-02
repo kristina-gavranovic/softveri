@@ -2,8 +2,6 @@ package ui.form;
 
 import controller.Controller;
 import domain.Radnik;
-import java.io.IOException;
-import java.net.ConnectException;
 import java.net.SocketException;
 import javax.swing.JOptionPane;
 import ui.form_validation.LoginFormValidation;
@@ -23,7 +21,7 @@ public class FPrijavaRadnika extends javax.swing.JFrame {
         jtxtUsername = new javax.swing.JTextField();
         jlabPassword = new javax.swing.JLabel();
         jtxtPassword = new javax.swing.JPasswordField();
-        btnLogin = new javax.swing.JButton();
+        btnPrijaviSe = new javax.swing.JButton();
         jlabUsernameError = new javax.swing.JLabel();
         jlabPasswordError = new javax.swing.JLabel();
 
@@ -37,12 +35,12 @@ public class FPrijavaRadnika extends javax.swing.JFrame {
 
         jlabPassword.setText("password:");
 
-        btnLogin.setBackground(new java.awt.Color(255, 204, 204));
-        btnLogin.setForeground(new java.awt.Color(153, 0, 153));
-        btnLogin.setText("Login");
-        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+        btnPrijaviSe.setBackground(new java.awt.Color(255, 204, 204));
+        btnPrijaviSe.setForeground(new java.awt.Color(153, 0, 153));
+        btnPrijaviSe.setText("Prijavi se");
+        btnPrijaviSe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoginActionPerformed(evt);
+                btnPrijaviSeActionPerformed(evt);
             }
         });
 
@@ -72,7 +70,7 @@ public class FPrijavaRadnika extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(236, 236, 236)
-                                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(btnPrijaviSe, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jtxtUsername))))))
                 .addContainerGap())
         );
@@ -92,37 +90,37 @@ public class FPrijavaRadnika extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jlabPasswordError, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnLogin)
+                .addComponent(btnPrijaviSe)
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+    private void btnPrijaviSeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrijaviSeActionPerformed
         try {
 
             Radnik radnik = new Radnik(jtxtUsername.getText().trim(), String.valueOf(jtxtPassword.getPassword()).trim());
             LoginFormValidation.validate(radnik);
-            radnik = Controller.getInstance().pronadjiRadnika(radnik);
+            radnik = Controller.getInstance().prijaviRadnika(radnik);
             JOptionPane.showMessageDialog(this, "Uspesna prijava na sistem! \n Ulogovani radnik je: " + radnik.toString());
             dispose();
             new FMain(radnik).setVisible(true);
-        }catch (SocketException e) {
+        } catch (SocketException e) {
             JOptionPane.showConfirmDialog(this, "Server nije pokrenut !", "Greska", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 
         } catch (Exception e) {
             JOptionPane.showConfirmDialog(this, e.getMessage(), "Greska", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 
         }
-    }//GEN-LAST:event_btnLoginActionPerformed
+    }//GEN-LAST:event_btnPrijaviSeActionPerformed
 
     private void prepareForm() {
         setLocationRelativeTo(null);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnLogin;
+    private javax.swing.JButton btnPrijaviSe;
     private javax.swing.JLabel jlabPassword;
     private javax.swing.JLabel jlabPasswordError;
     private javax.swing.JLabel jlabUsername;

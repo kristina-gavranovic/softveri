@@ -1,4 +1,3 @@
-
 package domain;
 
 import java.io.Serializable;
@@ -7,7 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 
 public class Radnik implements Serializable, IGeneralObject {
 
@@ -48,8 +46,6 @@ public class Radnik implements Serializable, IGeneralObject {
         this.password = password;
         this.status = status;
     }
-
-  
 
     public Integer getId() {
         return id;
@@ -164,9 +160,8 @@ public class Radnik implements Serializable, IGeneralObject {
             radnik.setStatus(StatusRadnika.getById(rs.getInt("status")));
             return radnik;
         }
-        //return null;
-        //sklonjeno da baca EXCP jer je blokirao formu 
-         throw new SQLException("Sistem ne moze da pronadje bibliotekara po zadatim vrednostima!");
+
+        throw new SQLException("Sistem ne moze da pronadje radnika po zadatim vrednostima!");
 
     }
 

@@ -145,7 +145,7 @@ public class FUnosNovogZaduzenja extends javax.swing.JFrame {
 
             try {
                 Controller.getInstance().sacuvajZaduzenje(zaduzenje);
-                JOptionPane.showMessageDialog(this, "Uspesno dodato zaduzenje");
+                JOptionPane.showMessageDialog(this, "Sistem je uspesno zapamtio zaduzenje!");
                 this.dispose();
             } catch (SocketException e) {
             JOptionPane.showConfirmDialog(this, "Server nije pokrenut !", "Greska", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);

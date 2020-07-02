@@ -304,10 +304,12 @@ public class FUnosNoveKnjige extends javax.swing.JDialog {
             KnjigaFormValidation.validatePrimerak(primerak);
             model.dodajPrimerak(primerak);
 
-        } catch (NumberFormatException ex) {
+        }
+        catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Unesite godinu izdavnja kao broj!");
             Logger.getLogger(FUnosNoveKnjige.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } 
+        catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
             Logger.getLogger(FUnosNoveKnjige.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -342,6 +344,7 @@ public class FUnosNoveKnjige extends javax.swing.JDialog {
             if (!model.getPrimerci().isEmpty()) {
                 Controller.getInstance().sacuvajKnjigu(knjigaSaForme);
                 JOptionPane.showMessageDialog(this, "Uspesno su uneti podaci o novoj knjizi.");
+                dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Morate uneti bar jedan primerak knjige!");
             }

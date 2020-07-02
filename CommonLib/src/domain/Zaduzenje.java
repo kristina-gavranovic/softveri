@@ -113,11 +113,7 @@ public class Zaduzenje implements Serializable, IGeneralObject {
     @Override
     public IGeneralObject getObject(ResultSet rs) throws SQLException {
            Zaduzenje zaduzenje = new Zaduzenje();
-        //zaduzenje.setId(rs.getInt("id"));
-       // zaduzenje.setDateCreated(rs.getDate("date_created"));
-       // zaduzenje.setDescription(rs.getString("description"));
-       // zaduzenje.setClient(new Client(rs.getInt("client_id")));
-        //invoice.setEmployee(new Employee(rs.getInt("employee_id")));
+       
         return zaduzenje;
     }
 
@@ -150,6 +146,11 @@ public class Zaduzenje implements Serializable, IGeneralObject {
     public String getUpdateValues() {
          return new StringBuilder()
                 .append("datumVracanjaKnjige = ").append("SYSDATE()").append(" ").toString();
+    }
+
+    @Override
+    public String toString() {
+        return "clanID:"+this.getClan().getId(); //To change body of generated methods, choose Tools | Templates.
     }
 
         

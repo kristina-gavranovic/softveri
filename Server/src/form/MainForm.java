@@ -1,10 +1,6 @@
 package form;
 
-import domain.Radnik;
 import java.io.IOException;
-import java.util.List;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import thread.ServerThread;
 
 public class MainForm extends javax.swing.JFrame {

@@ -21,8 +21,7 @@ public class SOPronadjiPrimerke extends AbstractGenericOperation {
         List<Knjiga> listaKnjiga = IGeneralObjectConverter.convertToKnjiga(genericDao.find(new Knjiga()));
         ArrayList<Knjiga> listZadovoljavaUslov = new ArrayList<>();
 
-        //dodati metode koje setuju primerke i autore na knjigu 
-        //promeniti tableModel za knjigu
+        
         mapObjects(listaKnjiga);
 
         for (Knjiga knjiga : listaKnjiga) {
@@ -49,10 +48,8 @@ public class SOPronadjiPrimerke extends AbstractGenericOperation {
 
             List<Autor> listAutor = new ArrayList<>();
             for (AutorKnjiga ak : listaAutorKnjiga) {
-//                TODO implementiraj preko .get genericke operacije (u autor implementiraj getObjectCase metodu)
 
                 Autor a1 = (Autor) genericDao.get(new Autor(ak.getAutorID()));
-                //  Autor a = (Autor) genericDao.findBy(new Autor(), "id", ak.getAutorID().toString()).get(0);
                 listAutor.add(a1);
             }
             knjiga.setAutori(listAutor);
